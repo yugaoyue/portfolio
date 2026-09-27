@@ -1,0 +1,3043 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>王政杰 — 机械结构工程师作品集</title>
+<style>
+  /* ===== Reset & Base ===== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    /* Deep space color system */
+    --bg-base: #050709;
+    --bg-deep: #080b11;
+    --bg-surface: #0c1018;
+    --bg-elevated: #11161f;
+    --bg-card: #141a25;
+    --bg-card-hover: #1a2233;
+    --bg-glass: rgba(14, 18, 28, 0.72);
+    --bg-glass-strong: rgba(8, 11, 17, 0.88);
+
+    /* Borders */
+    --border: rgba(74, 158, 255, 0.08);
+    --border-strong: rgba(74, 158, 255, 0.2);
+    --border-glow: rgba(74, 158, 255, 0.35);
+
+    /* Text */
+    --text-primary: #f0f4fa;
+    --text-secondary: #8a95a8;
+    --text-muted: #525c6e;
+
+    /* Accent system */
+    --accent: #4a9eff;
+    --accent-bright: #6db5ff;
+    --accent-soft: rgba(74, 158, 255, 0.1);
+    --accent-line: rgba(74, 158, 255, 0.3);
+    --accent-glow: rgba(74, 158, 255, 0.15);
+    --orange: #ff8a3d;
+    --orange-soft: rgba(255, 138, 61, 0.08);
+    --green: #42d392;
+
+    /* Typography */
+    --mono: 'JetBrains Mono', 'SF Mono', 'Cascadia Code', Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+
+    /* Spacing rhythm */
+    --radius: 14px;
+    --radius-sm: 8px;
+    --radius-xs: 4px;
+
+    /* Shadow system */
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+    --shadow-md: 0 8px 32px rgba(0,0,0,0.35), 0 1px 4px rgba(0,0,0,0.2);
+    --shadow-lg: 0 24px 64px rgba(0,0,0,0.5), 0 4px 16px rgba(0,0,0,0.3);
+    --shadow-glow: 0 0 48px rgba(74,158,255,0.12);
+    --shadow-card: 0 4px 24px rgba(0,0,0,0.4), 0 1px 3px rgba(0,0,0,0.25);
+    --shadow-card-hover: 0 28px 72px rgba(0,0,0,0.55), 0 4px 20px rgba(74,158,255,0.08);
+
+    /* Transitions */
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg-base);
+    color: var(--text-primary);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  /* Global noise texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' /%3E%3C/svg%3E");
+  }
+
+  /* ===== Navigation ===== */
+  .nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: var(--bg-glass);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid transparent;
+    transition: all 0.4s var(--ease-out);
+  }
+
+  .nav.scrolled {
+    background: var(--bg-glass-strong);
+    border-bottom-color: var(--border-strong);
+    box-shadow: 0 1px 24px rgba(0,0,0,0.3), 0 0 1px var(--border-glow);
+  }
+
+  .nav-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 32px;
+    height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+    color: var(--text-primary);
+  }
+
+  .nav-logo-mark {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--accent), #2d7dd2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: white;
+    box-shadow: 0 4px 16px rgba(74,158,255,0.25);
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    transition: all 0.2s var(--ease-out);
+    font-weight: 500;
+    position: relative;
+  }
+
+  .nav-links a:hover {
+    color: var(--text-primary);
+    background: rgba(255,255,255,0.04);
+  }
+
+  .nav-links a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .nav-links a.active {
+    color: var(--accent-bright);
+    background: var(--accent-soft);
+  }
+
+  .nav-cta {
+    padding: 9px 20px !important;
+    background: var(--accent) !important;
+    color: white !important;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    margin-left: 8px;
+    box-shadow: 0 2px 12px rgba(74,158,255,0.2);
+  }
+
+  .nav-cta:hover {
+    background: #3a8eef !important;
+    box-shadow: 0 4px 20px rgba(74,158,255,0.35);
+    transform: translateY(-1px);
+  }
+
+  .mobile-toggle {
+    display: none;
+    background: none;
+    border: 1px solid var(--border-strong);
+    color: var(--text-primary);
+    width: 42px;
+    height: 42px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobile-toggle:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  /* ===== Hero ===== */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 120px 32px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Background image layer */
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .hero-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+  }
+
+  .hero-bg img.loaded {
+    opacity: 0.35;
+  }
+
+  .hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 40%, transparent 0%, rgba(5,7,9,0.4) 50%, var(--bg-base) 100%),
+      linear-gradient(180deg, rgba(5,7,9,0.6) 0%, transparent 30%, transparent 60%, var(--bg-base) 100%),
+      linear-gradient(90deg, var(--bg-base) 0%, transparent 30%, transparent 70%, var(--bg-base) 100%);
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle at 70% 30%, var(--accent-glow) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle at 30% 70%, rgba(255, 138, 61, 0.05) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .hero-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    background: var(--accent-soft);
+    border: 1px solid var(--accent-line);
+    border-radius: 100px;
+    font-size: 13px;
+    color: var(--accent-bright);
+    margin-bottom: 28px;
+    font-weight: 500;
+    backdrop-filter: blur(8px);
+  }
+
+  .fade-in > .hero-label { margin-inline: auto; }
+
+  .hero-label-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(0.9); }
+  }
+
+  .hero h1 {
+    font-size: clamp(40px, 6vw, 64px);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1.08;
+    margin-bottom: 24px;
+    text-shadow: 0 2px 30px rgba(0,0,0,0.5);
+  }
+
+  .hero h1 .highlight {
+    background: linear-gradient(135deg, var(--accent-bright) 0%, #7ab8ff 50%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-subtitle {
+    font-size: 18px;
+    color: var(--text-secondary);
+    margin-bottom: 36px;
+    max-width: 540px;
+    margin-inline: auto;
+    line-height: 1.75;
+  }
+
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    margin-bottom: 44px;
+    justify-content: center;
+  }
+
+  .hero-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .hero-meta-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-family: var(--mono);
+  }
+
+  .hero-meta-value {
+    font-size: 15px;
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  .hero-buttons {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 28px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: all 0.25s var(--ease-out);
+    font-family: inherit;
+  }
+
+  .btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), #2d7dd2);
+    color: white;
+    box-shadow: 0 4px 20px rgba(74,158,255,0.25);
+  }
+
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #3a8eef, #1f6bc0);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(74,158,255,0.4);
+  }
+
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+
+  .btn-secondary {
+    background: var(--bg-glass);
+    color: var(--text-primary);
+    border: 1px solid var(--border-strong);
+    backdrop-filter: blur(8px);
+  }
+
+  .btn-secondary:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-glow);
+    transform: translateY(-2px);
+  }
+
+  /* ===== Section Base ===== */
+  .section {
+    padding: 120px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .section-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .section-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1s ease;
+  }
+
+  .section-bg img.loaded {
+    opacity: 0.06;
+  }
+
+  .section-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, var(--bg-base) 0%, transparent 15%, transparent 85%, var(--bg-base) 100%);
+  }
+
+  .section-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .section-header {
+    margin-bottom: 64px;
+  }
+
+  .section-label {
+    font-size: 12px;
+    color: var(--accent-bright);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--mono);
+  }
+
+  .section-label::before {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+  }
+
+  .section-title {
+    font-size: clamp(30px, 4vw, 44px);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    margin-bottom: 14px;
+    line-height: 1.15;
+  }
+
+  .section-desc {
+    color: var(--text-secondary);
+    font-size: 16px;
+    max-width: 620px;
+    line-height: 1.7;
+  }
+
+  /* ===== Project Categories ===== */
+  .cat-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1px;
+  }
+
+  .cat-tab {
+    padding: 12px 20px;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+    position: relative;
+    transition: all 0.25s var(--ease-out);
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .cat-tab:hover {
+    color: var(--text-primary);
+    background: rgba(255,255,255,0.03);
+  }
+
+  .cat-tab:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .cat-tab.active {
+    color: var(--accent-bright);
+  }
+
+  .cat-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-bright));
+    border-radius: 2px 2px 0 0;
+    box-shadow: 0 0 12px var(--accent-glow);
+  }
+
+  .cat-tab-icon {
+    font-size: 16px;
+  }
+
+  /* Project grid */
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 28px;
+  }
+
+  .project-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: all 0.4s var(--ease-out);
+    cursor: pointer;
+    position: relative;
+    box-shadow: var(--shadow-card);
+  }
+
+  .project-card:hover {
+    border-color: var(--border-glow);
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  .project-card:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .project-card-img {
+    position: relative;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    background: var(--bg-elevated);
+  }
+
+  .project-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s var(--ease-out);
+  }
+
+  .project-card-img svg {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s var(--ease-out);
+  }
+
+  .project-card:hover .project-card-img img {
+    transform: scale(1.08);
+  }
+
+  .project-card:hover .project-card-img svg {
+    transform: scale(1.08);
+  }
+
+  .project-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(5,7,9,0.9) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.35s var(--ease-out);
+    display: flex;
+    align-items: flex-end;
+    padding: 18px;
+  }
+
+  .project-card:hover .project-card-overlay {
+    opacity: 1;
+  }
+
+  .project-card-zoom {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 100px;
+    font-size: 12px;
+    color: white;
+  }
+
+  .project-card-body {
+    padding: 22px;
+  }
+
+  .project-card-tag {
+    display: inline-block;
+    padding: 4px 12px;
+    background: var(--accent-soft);
+    color: var(--accent-bright);
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border: 1px solid var(--accent-line);
+  }
+
+  .project-card-title {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+
+  .project-card-desc {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  .project-card-meta {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+
+  .project-card-meta-item {
+    font-size: 12px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .project-card-meta-item svg {
+    width: 14px;
+    height: 14px;
+    opacity: 0.5;
+  }
+
+  /* ===== About / Resume ===== */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 64px;
+  }
+
+  .about-sidebar {
+    position: sticky;
+    top: 100px;
+    align-self: start;
+  }
+
+  .about-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    padding: 0;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-md);
+    backdrop-filter: blur(12px);
+    overflow: hidden;
+  }
+
+  .about-card-header {
+    background: linear-gradient(135deg, rgba(74,158,255,0.08) 0%, transparent 100%);
+    padding: 32px 32px 24px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .about-card-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 32px;
+    right: 32px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent-line), transparent);
+  }
+
+  .about-avatar-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .about-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--accent), #2d7dd2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+    flex-shrink: 0;
+    box-shadow: 0 8px 24px rgba(74,158,255,0.2);
+  }
+
+  .about-name-block {
+    flex: 1;
+  }
+
+  .about-name {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+
+  .about-role {
+    color: var(--text-secondary);
+    font-size: 13px;
+  }
+
+  .about-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    background: rgba(66,211,146,0.08);
+    border: 1px solid rgba(66,211,146,0.2);
+    border-radius: 100px;
+    font-size: 11px;
+    color: var(--green);
+    font-weight: 500;
+  }
+
+  .about-status-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse 2s infinite;
+  }
+
+  .about-bio {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.65;
+    margin-bottom: 20px;
+  }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    margin: 0 -32px -24px;
+  }
+
+  .about-stat {
+    background: var(--bg-card);
+    padding: 16px 12px;
+    text-align: center;
+  }
+
+  .about-stat-value {
+    font-size: 22px;
+    font-weight: 800;
+    font-family: var(--mono);
+    color: var(--accent-bright);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .about-stat-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .about-card-body {
+    padding: 24px 32px;
+  }
+
+  .about-section-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 14px;
+    font-family: var(--mono);
+  }
+
+  .about-info-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .about-info-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    padding: 8px 12px;
+    background: rgba(255,255,255,0.02);
+    border-radius: var(--radius-xs);
+    border: 1px solid var(--border);
+    transition: all 0.2s ease;
+  }
+
+  .about-info-item:hover {
+    border-color: var(--border-strong);
+    background: rgba(255,255,255,0.04);
+  }
+
+  .about-info-item svg {
+    width: 16px;
+    height: 16px;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .about-info-item-label {
+    color: var(--text-muted);
+    font-size: 12px;
+  }
+
+  .about-info-item span:last-child {
+    color: var(--text-primary);
+    margin-left: auto;
+    text-align: right;
+    font-size: 13px;
+  }
+
+  .about-social {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .about-social-link {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xs);
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .about-social-link:hover {
+    border-color: var(--border-glow);
+    color: var(--text-primary);
+    background: var(--accent-soft);
+  }
+
+  .about-social-link svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .about-main h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .about-main h3::before {
+    content: '';
+    width: 3px;
+    height: 20px;
+    background: linear-gradient(180deg, var(--accent), var(--accent-bright));
+    border-radius: 2px;
+  }
+
+  .resume-section {
+    margin-bottom: 52px;
+  }
+
+  .resume-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .timeline {
+    position: relative;
+    padding-left: 28px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 6px;
+    bottom: 6px;
+    width: 2px;
+    background: linear-gradient(180deg, var(--border-strong), var(--border));
+    border-radius: 2px;
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 36px;
+  }
+
+  .timeline-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -28px;
+    top: 6px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--bg-base);
+    border: 2px solid var(--accent);
+    z-index: 1;
+    box-shadow: 0 0 12px var(--accent-glow);
+  }
+
+  .timeline-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .timeline-title {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .timeline-company {
+    color: var(--accent-bright);
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .timeline-date {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-family: var(--mono);
+    white-space: nowrap;
+  }
+
+  .timeline-desc {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-top: 10px;
+  }
+
+  .timeline-desc ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .timeline-desc li {
+    position: relative;
+    padding-left: 18px;
+    line-height: 1.65;
+  }
+
+  .timeline-desc li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 12px;
+  }
+
+  /* Skills */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .skill-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 18px;
+    transition: all 0.3s var(--ease-out);
+  }
+
+  .skill-item:hover {
+    border-color: var(--border-strong);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .skill-item-title {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .skill-tag {
+    padding: 5px 11px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-family: var(--mono);
+    transition: all 0.2s ease;
+  }
+
+  .skill-tag:hover {
+    border-color: var(--border-strong);
+    color: var(--text-primary);
+  }
+
+  /* Awards */
+  .awards-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .award-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 18px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    transition: all 0.3s var(--ease-out);
+  }
+
+  .award-item:hover {
+    border-color: var(--border-glow);
+    transform: translateX(4px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .award-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--accent-soft);
+    border: 1px solid var(--accent-line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 18px;
+  }
+
+  .award-text {
+    font-size: 14px;
+    color: var(--text-primary);
+    line-height: 1.55;
+  }
+
+  .award-level {
+    font-size: 12px;
+    color: var(--accent-bright);
+    margin-top: 3px;
+    font-weight: 600;
+  }
+
+  /* ===== Lightbox ===== */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.35s var(--ease-out);
+    padding: 60px 40px;
+  }
+
+  .lightbox.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .lightbox-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .lightbox-img-wrapper {
+    position: relative;
+    max-width: 100%;
+    max-height: 75vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.15s ease;
+  }
+
+  .lightbox-img-wrapper img {
+    max-width: 100%;
+    max-height: 75vh;
+    object-fit: contain;
+    border-radius: 10px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+  }
+
+  .lightbox-img-wrapper svg {
+    width: 80vw;
+    max-width: 900px;
+    max-height: 75vh;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+  }
+
+  .lightbox-caption {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 14px;
+  }
+
+  .lightbox-caption strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 24px;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s var(--ease-out);
+    backdrop-filter: blur(8px);
+  }
+
+  .lightbox-close:hover {
+    background: rgba(255,255,255,0.15);
+    transform: rotate(90deg);
+  }
+
+  .lightbox-close:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s var(--ease-out);
+    backdrop-filter: blur(8px);
+  }
+
+  .lightbox-nav:hover {
+    background: rgba(255,255,255,0.15);
+    box-shadow: 0 0 20px rgba(74,158,255,0.2);
+  }
+
+  .lightbox-nav:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .lightbox-prev { left: 24px; }
+  .lightbox-next { right: 24px; }
+
+  .lightbox-counter {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--text-muted);
+    font-size: 13px;
+    font-family: var(--mono);
+  }
+
+  /* ===== Contact / Footer ===== */
+  .footer {
+    padding: 64px 32px 40px;
+    border-top: 1px solid var(--border-strong);
+    background: var(--bg-deep);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .footer-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .footer-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1s ease;
+  }
+
+  .footer-bg img.loaded {
+    opacity: 0.08;
+  }
+
+  .footer-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, var(--bg-deep) 0%, transparent 50%, var(--bg-base) 100%);
+  }
+
+  .footer-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .footer-text {
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+  }
+
+  .footer-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.2s ease;
+  }
+
+  .footer-links a:hover {
+    color: var(--accent-bright);
+  }
+
+  .footer-links a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  /* ===== Stats counter ===== */
+  .stat-number {
+    font-family: var(--mono);
+    font-weight: 700;
+  }
+
+  /* ===== Animations ===== */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .fade-in-stagger > * {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+  }
+
+  .fade-in-stagger.visible > * {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .fade-in-stagger.visible > *:nth-child(1) { transition-delay: 0ms; }
+  .fade-in-stagger.visible > *:nth-child(2) { transition-delay: 60ms; }
+  .fade-in-stagger.visible > *:nth-child(3) { transition-delay: 120ms; }
+  .fade-in-stagger.visible > *:nth-child(4) { transition-delay: 180ms; }
+  .fade-in-stagger.visible > *:nth-child(5) { transition-delay: 240ms; }
+  .fade-in-stagger.visible > *:nth-child(6) { transition-delay: 300ms; }
+  .fade-in-stagger.visible > *:nth-child(7) { transition-delay: 360ms; }
+  .fade-in-stagger.visible > *:nth-child(8) { transition-delay: 420ms; }
+  .fade-in-stagger.visible > *:nth-child(9) { transition-delay: 480ms; }
+  .fade-in-stagger.visible > *:nth-child(n+10) { transition-delay: 540ms; }
+
+  /* Image loading placeholder */
+  .lazy-placeholder {
+    background: linear-gradient(110deg, var(--bg-elevated) 8%, var(--bg-card) 18%, var(--bg-elevated) 33%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s linear infinite;
+  }
+
+  @keyframes shimmer {
+    to { background-position-x: -200%; }
+  }
+
+  /* ===== Scrollbar ===== */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: var(--bg-base); }
+  ::-webkit-scrollbar-thumb {
+    background: var(--border-strong);
+    border-radius: 5px;
+    border: 2px solid var(--bg-base);
+  }
+  ::-webkit-scrollbar-thumb:hover { background: var(--accent-line); }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 960px) {
+    .hero-inner { max-width: 100%; }
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .about-sidebar { position: static; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .mobile-toggle { display: flex; }
+    .nav-links.open {
+      display: flex;
+      position: absolute;
+      top: 68px;
+      left: 0;
+      right: 0;
+      background: var(--bg-glass-strong);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-strong);
+      flex-direction: column;
+      padding: 16px;
+      gap: 4px;
+    }
+    .section { padding: 80px 24px; }
+  }
+
+  @media (max-width: 640px) {
+    .section { padding: 64px 20px; }
+    .hero { padding: 100px 20px 60px; }
+    .nav-inner { padding: 0 20px; }
+    .project-grid { grid-template-columns: 1fr; gap: 20px; }
+    .hero-meta { gap: 20px; }
+    .hero-buttons { flex-direction: column; align-items: center; }
+    .hero-buttons .btn { width: 100%; max-width: 280px; justify-content: center; }
+    .timeline-header { flex-direction: column; }
+    .lightbox { padding: 40px 12px; }
+    .lightbox-prev { left: 4px; }
+    .lightbox-next { right: 4px; }
+    .lightbox-nav { width: 40px; height: 40px; }
+    .lightbox-close { top: 12px; right: 12px; }
+    .section-header { margin-bottom: 40px; }
+    .cat-tabs { gap: 2px; }
+    .cat-tab { padding: 10px 14px; font-size: 13px; }
+    .about-card { padding: 24px; }
+    .footer-inner { flex-direction: column; text-align: center; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* ===== 3D STEP Viewer ===== */
+  .step-viewer-container {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, #1a2536 0%, #0a0f18 100%);
+    cursor: grab;
+    overflow: hidden;
+  }
+  .step-viewer-container:active { cursor: grabbing; }
+  .step-viewer-container canvas { display: block; width: 100% !important; height: 100% !important; }
+  .step-badge {
+    position: absolute;
+    top: 12px; right: 12px;
+    background: rgba(74,158,255,0.9);
+    color: #fff;
+    font-size: 10px; font-weight: 700;
+    padding: 4px 10px; border-radius: 4px;
+    z-index: 5; letter-spacing: 0.5px;
+    pointer-events: none;
+    box-shadow: 0 2px 8px rgba(74,158,255,0.3);
+  }
+  .step-loading {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    color: rgba(232,236,241,0.5);
+    font-size: 12px;
+    z-index: 3;
+    text-align: center;
+  }
+  .step-loading .spinner {
+    width: 28px; height: 28px;
+    border: 2.5px solid rgba(74,158,255,0.2);
+    border-top-color: rgba(74,158,255,0.8);
+    border-radius: 50%;
+    margin: 0 auto 8px;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  #lightboxStepContainer {
+    width: 100%; height: 100%;
+    position: relative;
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== Navigation ===== -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo">
+      <div class="nav-logo-mark">W</div>
+      <span>王政杰 · 结构工程</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#hero" class="active">首页</a></li>
+      <li><a href="#projects">项目作品</a></li>
+      <li><a href="#about">关于我</a></li>
+      <li><a href="#skills">专业技能</a></li>
+      <li><a href="#awards">荣誉奖项</a></li>
+      <li><a href="王政杰_机械结构工程师简历_2027届秋招2.pdf" class="nav-cta" target="_blank">下载简历 ↓</a></li>
+    </ul>
+    <button class="mobile-toggle" id="mobileToggle" aria-label="菜单" aria-expanded="false">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+<!-- ===== Hero ===== -->
+<header class="hero" id="hero">
+  <div class="hero-bg">
+    <img src="bg-hero.jpg" alt="" loading="eager" onload="this.classList.add('loaded')">
+  </div>
+  <div class="hero-inner">
+    <div class="fade-in">
+      <div class="hero-label">
+        <span class="hero-label-dot"></span>
+        2027届秋招 · 机械结构工程师
+      </div>
+      <h1>
+        你好，我是<br>
+        <span class="highlight">王政杰</span>
+      </h1>
+      <p class="hero-subtitle">
+        机械电子工程专业，专注于机器人结构设计、有限元仿真与AI驱动的工程优化。
+        从AGV底盘到灵巧手，从拓扑优化到CAM加工，用结构语言定义机械之美。
+      </p>
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">教育背景</span>
+          <span class="hero-meta-value">电子科技大学中山学院 · 本科</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">研究方向</span>
+          <span class="hero-meta-value">机器人结构 / 仿真优化</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">所在地</span>
+          <span class="hero-meta-value">广东 · 深圳</span>
+        </div>
+      </div>
+      <div class="hero-buttons">
+        <a href="#projects" class="btn btn-primary">
+          浏览作品
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </a>
+        <a href="王政杰_机械结构工程师简历_2027届秋招2.pdf" class="btn btn-secondary" target="_blank">
+          查看完整简历
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== Projects ===== -->
+<section class="section" id="projects">
+  <div class="section-bg">
+    <img src="bg-projects.jpg" alt="" loading="lazy" onload="this.classList.add('loaded')">
+  </div>
+  <div class="section-inner">
+    <div class="section-header fade-in">
+      <div class="section-label">Portfolio / 项目作品</div>
+      <h2 class="section-title">六个方向的结构设计实践</h2>
+      <p class="section-desc">
+        从机器人底盘到灵巧手，从有限元仿真到CAM加工路径，每一个项目都是工程思维与设计美学的结合。
+        点击卡片查看大图与项目详情。
+      </p>
+    </div>
+
+    <div class="cat-tabs fade-in" id="catTabs" role="tablist">
+      <button class="cat-tab active" data-cat="all" role="tab" aria-selected="true">
+        <span class="cat-tab-icon">📋</span> 全部作品
+      </button>
+      <button class="cat-tab" data-cat="chassis" role="tab">
+        <span class="cat-tab-icon">🚗</span> 小车底盘
+      </button>
+      <button class="cat-tab" data-cat="drone" role="tab">
+        <span class="cat-tab-icon">✈️</span> 无人机
+      </button>
+      <button class="cat-tab" data-cat="hand" role="tab">
+        <span class="cat-tab-icon">🤖</span> 灵巧手
+      </button>
+      <button class="cat-tab" data-cat="custom" role="tab">
+        <span class="cat-tab-icon">🏭</span> 非标设计
+      </button>
+      <button class="cat-tab" data-cat="sim" role="tab">
+        <span class="cat-tab-icon">📊</span> 仿真
+      </button>
+      <button class="cat-tab" data-cat="cam" role="tab">
+        <span class="cat-tab-icon">⚙️</span> CAM
+      </button>
+    </div>
+
+    <div class="project-grid fade-in-stagger" id="projectGrid">
+      <!-- 小车底盘 -->
+      <article class="project-card fade-in" data-cat="chassis" data-index="0" tabindex="0">
+        <div class="project-card-img">
+          <img src="4d3f1218f688e46002d045507cb54e64.png" alt="RoboMaster步兵舵轮底盘" loading="lazy">
+          <div class="project-card-overlay">
+            <span class="project-card-zoom">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                <line x1="11" y1="8" x2="11" y2="14"/>
+                <line x1="8" y1="11" x2="14" y2="11"/>
+              </svg>
+              点击查看大图
+            </span>
+          </div>
+        </div>
+        <div class="project-card-body">
+          <span class="project-card-tag">小车底盘</span>
+          <h3 class="project-card-title">RoboMaster 步兵舵轮底盘</h3>
+          <p class="project-card-desc">
+            步兵机器人四轮独立舵轮底盘结构设计，包含高强度车架主体、独立悬挂系统、云台安装基座与装甲板结构。
+            运用AI拓扑优化对车架、支架进行生成式设计迭代，通过冲击、跌落等6种工况强度校核，整备质量由52kg降至43.8kg，减重15.8%。
+            基于ANSYS建立碰撞仿真模型，AI驱动多工况强度迭代优化装甲板角度与加强筋布局，结构失效概率显著降低。
+          </p>
+          <div class="project-card-meta">
+            <span class="project-card-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+              </svg>
+              SolidWorks / ANSYS
+            </span>
+            <span class="project-card-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+              联盟赛冠军
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 无人机 -->
+      <article class="project-card fade-in" data-cat="drone" data-index="1" tabindex="0">
+        <div class="project-card-img">
+          <img src="6b419cc62a976dae145874c255541600.jpg" alt="空中机器人带保护圈四旋翼" loading="lazy">
+          <div class="project-card-overlay">
+            <span class="project-card-zoom">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                <line x1="11" y1="8" x2="11" y2="14"/>
+                <line x1="8" y1="11" x2="14" y2="11"/>
+              </svg>
+              点击查看大图
+            </span>
+          </div>
+        </div>
+        <div class="project-card-body">
+          <span class="project-card-tag">无人机</span>
+          <h3 class="project-card-title">RoboMaster 空中机器人</h3>
+          <p class="project-card-desc">
+            四旋翼空中机器人结构设计，含全包围桨叶保护圈、中心机身框架、发射机构与两轴云台系统。
+            碳纤维板材一体成型机架，配合3D打印连接件实现快速拆装维护。
+            通过冲击、跌落、振动等6种工况强度校核，AI拓扑优化实现轻量化设计，飞行续航与机动性能显著提升。
+          </p>
+          <div class="project-card-meta">
+            <span class="project-card-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+              </svg>
+              SolidWorks / ANSYS
+            </span>
+            <span class="project-card-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+              联盟赛冠军
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 灵巧手 1 -->
+      <article class="project-card fade-in" data-cat="hand" data-index="2" tabindex="0">
+        <div class="project-card-img">
+          <img src="426439c7aa2fe893861302446044f6f9.png" alt="第二代拟人灵巧手掌侧" loading="lazy">
+          <div class="project-card-overlay">
+            <span class="project-card-zoom">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                <line x1="11" y1="8" x2="11" y2="14"/>
+                <line x1="8" y1="11" x2="14" y2="11"/>
+              </svg>
+              点击查看大图
+            </span>
+          </div>
+        </div>
+        <div class="project-card-body">
+          <span class="project-card-tag">灵巧手</span>
+          <h3 class="project-card-title">第二代拟人灵巧手 · 掌侧</h3>
+          <p class="project-card-desc">
+            第二代21自由度拟人灵巧手整体结构设计，5指21关节模块化指节、腱绳传动系统、集成式驱动舱与快换接口。
+            基于Matlab Robotics Toolbox建立运动学模型，AI算法优化指节长度比例与关节限位，工作空间覆盖率显著提升，可完成精密抓取、捏取、握持等15+种动作模式。
+            AI生成式设计对指节骨结构拓扑优化，满足最大单指捏力15N与强度要求，整手重量控制在450g以内。
+          </p>
+          <div class="project-card-meta">
+            <span class="project-card-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+              </svg>
+              Fusion 360 / Matlab
+            </span>
+            <span class="project-card-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2v20M2 12h20"/>
+              </svg>
+              21 DOF / 450g
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 灵巧手 2 -->
+      <article class="project-card fade-in" data-cat="hand" data-index="3" tabindex="0">
+        <div class="project-card-img">
+          <img src="4d074af61ff70ceef0ac2b34a04ddc20.png" alt="第一代灵巧手背侧驱动舱" loading="lazy">
+          <div class="project-card-overlay">
+            <span class="project-card-zoom">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                <line x1="11" y1="8" x2="11" y2="14"/>
+                <line x1="8" y1="11" x2="14" y2="11"/>
+              </svg>
+              点击查看大图
+            </span>
+          </div>
+        </div>
+        <div class="project-card-body">
+          <span class="project-card-tag">灵巧手</span>
+          <h3 class="project-card-title">第一代灵巧手 · 背侧驱动舱</h3>
+          <p class="project-card-desc">
+            第一代灵巧手背侧集成驱动舱设计，5组扇形绳轮配合腱绳实现手指屈伸驱动，结构紧凑传动效率高。
+            基于Matlab Robotics Toolbox建立运动学模型，完成工作空间分析与轨迹规划验证，可实现精密抓取、捏取等多种动作模式。
+            配套完成柔性两爪夹爪及快拆结构设计，满足不同应用场景的末端执行器快速更换需求。
+          </p>
+          <div class="project-card-meta">
+            <span class="project-card-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+              </svg>
+              腱绳传动
+            </span>
+            <span class="project-card-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+              Matlab / ROS2
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 非标设计 1 -->
+      <article class="project-card fade-in" data-cat="custom" data-index="4" tabindex="0">
+        <div class="project-card-img">
+          <img src="f3c0dbf15187bf2b85318294247cf226.png" alt="非标自动化产线" loading="lazy">
+          <div class="project-card-overlay">
+            <span class="project-card-zoom">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                <line x1="11" y1="8" x2="11" y2="14"/>
+                <line x1="8" y1="11" x2="14" y2="11"/>
+              </svg>
+              点击查看大图
+            </span>
+          </div>
+        </div>
+        <div class="project-card-body">
+          <span class="project-card-tag">非标设计</span>
+          <h3 class="project-card-title">自动化检测产线集成</h3>
+          <p class="project-card-desc">
+            非标自动化设备整体结构设计，涵盖气压测量装置、高温老化测试设备、变形检测工装三大核心模块。
+            运用AI生成式设计完成气路集成块优化，配合Fluent气路仿真迭代，测量精度由±0.5%FS提升至±0.2%FS。
+            独立完成机械臂上下料对接、专用夹具、移栽机构与定位工装设计，实现产线全流程自动化贯通。
+            熟练掌握CNC机加工工艺出图，跟进样品加工与实物装配迭代，首件装配合格率达95%。
+          </p>
+          <div class="project-card-meta">
+            <span class="project-card-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+              </svg>
+              SolidWorks / Fluent
+            </span>
+            <span class="project-card-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+              ±0.2%FS精度
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 非标设计 2 -->
+      <article class="project-card fade-in" data-cat="custom" data-index="5" data-step="非标名字.step" tabindex="0">
+        <div class="project-card-img">
+          <div class="step-viewer-container" id="stepCardViewer"></div>
+          <span class="step-badge">3D 交互</span>
+          <img src="8052551877bc21a473fe17671b759693.png" alt="立体字创意结构设计" loading="lazy" style="display:none">
+          <div class="project-card-overlay">
+            <span class="project-card-zoom">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                <line x1="11" y1="8" x2="11" y2="14"/>
+                <line x1="8" y1="11" x2="14" y2="11"/>
+              </svg>
+              点击查看大图
+            </span>
+          </div>
+        </div>
+        <div class="project-card-body">
+          <span class="project-card-tag">非标设计</span>
+          <h3 class="project-card-title">立体字创意结构设计</h3>
+          <p class="project-card-desc">
+            创意型增材制造结构设计——将"王政杰"三个字融于一个立方体内，从不同方位可看到不同的汉字。
+            设计过程中综合考虑立体空间构成、结构力学合理性与3D打印工艺约束，确保结构可制造性与视觉效果的平衡。
+            获全国大学生先进成图技术与产品信息建模创新大赛增材制造赛道全国三等奖。
+          </p>
+          <div class="project-card-meta">
+            <span class="project-card-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                <path d="M3 9h18M9 3v18"/>
+              </svg>
+              增材制造
+            </span>
+            <span class="project-card-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                <path d="M2 17l10 5 10-5"/>
+                <path d="M2 12l10 5 10-5"/>
+              </svg>
+              全国三等奖
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 非标设计 3 — 激光雕刻机 -->
+      <article class="project-card fade-in" data-cat="custom" data-index="6" tabindex="0">
+        <div class="project-card-img">
+          <img src="laser_engraver.png" alt="半导体三轴激光雕刻机" loading="lazy">
+          <div class="project-card-overlay">
+            <span class="project-card-zoom">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                <line x1="11" y1="8" x2="11" y2="14"/>
+                <line x1="8" y1="11" x2="14" y2="11"/>
+              </svg>
+              点击查看大图
+            </span>
+          </div>
+        </div>
+        <div class="project-card-body">
+          <span class="project-card-tag">非标设计</span>
+          <h3 class="project-card-title">半导体三轴激光雕刻机</h3>
+          <p class="project-card-desc">
+            独立研发半导体三轴激光雕刻机整机结构，采用铝型材框架+3D打印连接件快速拆装方案，兼顾轻量化与刚性。
+            设计XY运动平台、Z轴升降模组、激光头支架及全自动对焦系统，配备琥珀色激光防护顶盖与半封闭安全外壳，满足Class 1激光安全标准。
+            运用ANSYS对关键承力件进行强度校核与模态分析，优化谐振频率避开电机驱动频段，保障高速雕刻下的结构稳定性。
+            完成步进电机选型、同步带传动计算、线性导轨负载校核与电气走线布局，实现从结构设计到样机装配的全流程交付。
+          </p>
+          <div class="project-card-meta">
+            <span class="project-card-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+              </svg>
+              SolidWorks / ANSYS
+            </span>
+            <span class="project-card-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                <path d="M3 9h18M9 3v18"/>
+              </svg>
+              三轴联动
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 仿真 1 -->
+      <article class="project-card fade-in" data-cat="sim" data-index="7" tabindex="0">
+        <div class="project-card-img">
+          <img src="3d4ba16dedceda38ef778fabb55aa3a9.png" alt="结构静力学仿真" loading="lazy">
+          <div class="project-card-overlay">
+            <span class="project-card-zoom">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                <line x1="11" y1="8" x2="11" y2="14"/>
+                <line x1="8" y1="11" x2="14" y2="11"/>
+              </svg>
+              点击查看大图
+            </span>
+          </div>
+        </div>
+        <div class="project-card-body">
+          <span class="project-card-tag">仿真</span>
+          <h3 class="project-card-title">受力强度分析 · 应力云图</h3>
+          <p class="project-card-desc">
+            基于ANSYS Workbench的结构有限元受力强度分析，云图展示载荷作用下的等效应力（von Mises）分布规律。
+            针对关键承力结构开展多工况强度校核，包括静载、冲击、跌落、振动等典型工况，验证设计是否满足3倍安全系数要求。
+            AI驱动多工况强度迭代优化，自动识别应力集中区域并给出结构改进方向，显著降低结构失效概率。
+          </p>
+          <div class="project-card-meta">
+            <span class="project-card-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 3v18h18"/>
+                <path d="M7 14l4-4 4 4 5-5"/>
+              </svg>
+              ANSYS FEA
+            </span>
+            <span class="project-card-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+              </svg>
+              3倍安全系数
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 仿真 2 -->
+      <article class="project-card fade-in" data-cat="sim" data-index="8" tabindex="0">
+        <div class="project-card-img">
+          <img src="720d9519ff840bcb376bcf15e49cd450.png" alt="流体温度场仿真" loading="lazy">
+          <div class="project-card-overlay">
+            <span class="project-card-zoom">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                <line x1="11" y1="8" x2="11" y2="14"/>
+                <line x1="8" y1="11" x2="14" y2="11"/>
+              </svg>
+              点击查看大图
+            </span>
+          </div>
+        </div>
+        <div class="project-card-body">
+          <span class="project-card-tag">仿真</span>
+          <h3 class="project-card-title">流体力学分析 · 温度场</h3>
+          <p class="project-card-desc">
+            基于Fluent的计算流体力学（CFD）仿真，分析复杂流道内的温度场分布与对流换热特性，揭示热流耦合作用机制。
+            采用k-ε湍流模型与能量方程耦合求解，获得稳态与瞬态温度分布，为高温工况下的结构可靠性设计提供数据支撑。
+            结合气路集成块优化项目，指导散热结构改进与材料选型，确保测量设备在宽温域内的精度稳定性。
+          </p>
+          <div class="project-card-meta">
+            <span class="project-card-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 3v18h18"/>
+                <path d="M7 14l4-4 4 4 5-5"/>
+              </svg>
+              Fluent CFD
+            </span>
+            <span class="project-card-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+              </svg>
+              热-流耦合
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 仿真 3 -->
+      <article class="project-card fade-in" data-cat="sim" data-index="9" tabindex="0">
+        <div class="project-card-img">
+          <img src="884b7ace23bd759997376e069a6c1e6e.png" alt="流体速度矢量仿真" loading="lazy">
+          <div class="project-card-overlay">
+            <span class="project-card-zoom">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                <line x1="11" y1="8" x2="11" y2="14"/>
+                <line x1="8" y1="11" x2="14" y2="11"/>
+              </svg>
+              点击查看大图
+            </span>
+          </div>
+        </div>
+        <div class="project-card-body">
+          <span class="project-card-tag">仿真</span>
+          <h3 class="project-card-title">流体力学分析 · 速度矢量场</h3>
+          <p class="project-card-desc">
+            基于Fluent的计算流体力学（CFD）仿真，复杂流道内部速度矢量分布可视化，直观揭示涡流、死区、局部加速等流动特征。
+            通过速度矢量场分析识别流道设计瓶颈，指导气路集成块结构优化，消除流动分离与压力损失异常区域。
+            完成多轮气路仿真迭代优化，助力气压测量装置测量精度由±0.5%FS提升至±0.2%FS。
+          </p>
+          <div class="project-card-meta">
+            <span class="project-card-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 3v18h18"/>
+                <path d="M7 14l4-4 4 4 5-5"/>
+              </svg>
+              Fluent CFD
+            </span>
+            <span class="project-card-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+              ±0.2%FS精度
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 仿真 4 -->
+      <article class="project-card fade-in" data-cat="sim" data-index="10" tabindex="0">
+        <div class="project-card-img">
+          <img src="151bdb14fffbeaa0b199a4fa144f2c1d.png" alt="结构加载仿真模型" loading="lazy">
+          <div class="project-card-overlay">
+            <span class="project-card-zoom">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                <line x1="11" y1="8" x2="11" y2="14"/>
+                <line x1="8" y1="11" x2="14" y2="11"/>
+              </svg>
+              点击查看大图
+            </span>
+          </div>
+        </div>
+        <div class="project-card-body">
+          <span class="project-card-tag">仿真</span>
+          <h3 class="project-card-title">受力强度分析 · 约束加载</h3>
+          <p class="project-card-desc">
+            结构有限元受力强度分析前处理阶段，包含几何清理简化、网格划分、材料属性定义、约束施加与载荷设置等完整流程。
+            锁图标代表固定约束位置（全自由度约束），箭头表示施加载荷的方向与作用点，确保边界条件与实际工况一致。
+            高质量的前处理是有限元分析准确性的基础，直接影响应力分布、变形量等关键计算结果的可信度。
+          </p>
+          <div class="project-card-meta">
+            <span class="project-card-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 3v18h18"/>
+                <path d="M7 14l4-4 4 4 5-5"/>
+              </svg>
+              ANSYS FEA
+            </span>
+            <span class="project-card-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+              前处理
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- CAM 1 -->
+      <article class="project-card fade-in" data-cat="cam" data-index="11" tabindex="0">
+        <div class="project-card-img">
+          <img src="5beca630f57da0b488ab71566728a5e0.png" alt="车削加工刀具路径" loading="lazy">
+          <div class="project-card-overlay">
+            <span class="project-card-zoom">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                <line x1="11" y1="8" x2="11" y2="14"/>
+                <line x1="8" y1="11" x2="14" y2="11"/>
+              </svg>
+              点击查看大图
+            </span>
+          </div>
+        </div>
+        <div class="project-card-body">
+          <span class="project-card-tag">CAM</span>
+          <h3 class="project-card-title">车削加工刀路 · 剖面视图</h3>
+          <p class="project-card-desc">
+            数控车床加工刀具路径规划，以剖面视图展示外圆粗车、精车、退刀槽及端面加工的完整刀路轨迹。
+            基于Fusion 360 CAM进行加工策略设定，包含刀具选型、切削参数优化、进退刀路径规划，确保加工效率与表面质量的平衡。
+            独立完成CNC机加工工艺出图，跟进样品加工与实物装配迭代，首件装配合格率达95%。
+          </p>
+          <div class="project-card-meta">
+            <span class="project-card-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+              </svg>
+              CNC 车削
+            </span>
+            <span class="project-card-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+              </svg>
+              Fusion 360 CAM
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- CAM 2 -->
+      <article class="project-card fade-in" data-cat="cam" data-index="12" tabindex="0">
+        <div class="project-card-img">
+          <img src="5c3c2a051f27e22e3ca219a4639bff51.png" alt="车削加工立体刀路" loading="lazy">
+          <div class="project-card-overlay">
+            <span class="project-card-zoom">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                <line x1="11" y1="8" x2="11" y2="14"/>
+                <line x1="8" y1="11" x2="14" y2="11"/>
+              </svg>
+              点击查看大图
+            </span>
+          </div>
+        </div>
+        <div class="project-card-body">
+          <span class="project-card-tag">CAM</span>
+          <h3 class="project-card-title">车削加工刀路 · 立体视图</h3>
+          <p class="project-card-desc">
+            数控车削加工刀具路径立体仿真，三爪卡盘装夹方式，完整展示外圆车削、端面车削、切槽等多工序加工轨迹的空间分布。
+            基于Fusion 360 CAM进行加工仿真验证，提前发现刀具干涉、过切等风险，降低实际加工中的废品率。
+            熟练掌握从三维模型到加工出图的全流程，具备独立完成零件机加工工艺设计与现场调试的能力。
+          </p>
+          <div class="project-card-meta">
+            <span class="project-card-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+              </svg>
+              CNC 车削
+            </span>
+            <span class="project-card-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+              95%装配合格率
+            </span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== About ===== -->
+<section class="section" id="about">
+  <div class="section-bg">
+    <img src="bg-about.jpg" alt="" loading="lazy" onload="this.classList.add('loaded')">
+  </div>
+  <div class="section-inner">
+    <div class="section-header fade-in">
+      <div class="section-label">About / 关于我</div>
+      <h2 class="section-title">个人简历与项目经历</h2>
+      <p class="section-desc">
+        扎实的机械设计基础，丰富的机器人与非标设备研发经验，热衷于将AI技术融入传统工程设计流程。
+      </p>
+    </div>
+
+    <div class="about-grid">
+      <aside class="about-sidebar fade-in">
+        <div class="about-card">
+          <div class="about-card-header">
+            <div class="about-avatar-row">
+              <div class="about-avatar">王</div>
+              <div class="about-name-block">
+                <div class="about-name">王政杰</div>
+                <div class="about-role">机械结构工程师 · 2027届秋招</div>
+              </div>
+            </div>
+            <div class="about-status">
+              <span class="about-status-dot"></span>
+              正在求职 · 随时可入职
+            </div>
+            <p class="about-bio" style="margin-top:16px;">
+              机械电子工程本科，专注机器人结构设计与有限元仿真。
+              独立完成AGV底盘、21自由度灵巧手、激光雕刻机等整机结构研发，
+              熟练运用AI拓扑优化将传统设计流程效率提升3倍。
+            </p>
+            <div class="about-stats">
+              <div class="about-stat">
+                <div class="about-stat-value" data-count="13">0</div>
+                <div class="about-stat-label">项目作品</div>
+              </div>
+              <div class="about-stat">
+                <div class="about-stat-value" data-count="6">0</div>
+                <div class="about-stat-label">国家级/省级奖</div>
+              </div>
+              <div class="about-stat">
+                <div class="about-stat-value" data-count="2">0</div>
+                <div class="about-stat-label">企业实习</div>
+              </div>
+            </div>
+          </div>
+          <div class="about-card-body">
+            <div class="about-section-title">联系方式</div>
+            <ul class="about-info-list">
+              <li class="about-info-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+                <span class="about-info-item-label">电话</span>
+                <span>15800133856</span>
+              </li>
+              <li class="about-info-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                  <polyline points="22,6 12,13 2,6"/>
+                </svg>
+                <span class="about-info-item-label">邮箱</span>
+                <span style="font-size:12px;">whyh3162708376@qq.com</span>
+              </li>
+              <li class="about-info-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+                <span class="about-info-item-label">籍贯</span>
+                <span>广东茂名</span>
+              </li>
+              <li class="about-info-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                  <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                </svg>
+                <span class="about-info-item-label">学校</span>
+                <span>电子科大中山学院</span>
+              </li>
+              <li class="about-info-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+                <span class="about-info-item-label">现居</span>
+                <span>广东深圳</span>
+              </li>
+            </ul>
+            <div class="about-section-title" style="margin-top:20px;">在线链接</div>
+            <div class="about-social">
+              <a href="mailto:whyh3162708376@qq.com" class="about-social-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                  <polyline points="22,6 12,13 2,6"/>
+                </svg>
+                邮箱
+              </a>
+              <a href="tel:15800133856" class="about-social-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+                电话
+              </a>
+              <a href="王政杰_机械结构工程师简历_2027届秋招2.pdf" class="about-social-link" target="_blank">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                </svg>
+                简历
+              </a>
+            </div>
+          </div>
+        </div>
+        <a href="王政杰_机械结构工程师简历_2027届秋招2.pdf" class="btn btn-primary" style="width:100%; justify-content:center;" target="_blank">
+          下载完整PDF简历
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+        </a>
+      </aside>
+
+      <div class="about-main">
+        <!-- 教育经历 -->
+        <div class="resume-section fade-in">
+          <h3>教育经历</h3>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-header">
+                <div>
+                  <div class="timeline-title">机械电子工程 · 本科</div>
+                  <div class="timeline-company">电子科技大学中山学院 · 机器人创新班</div>
+                </div>
+                <span class="timeline-date">2023.09 - 2027.06</span>
+              </div>
+              <div class="timeline-desc">
+                <ul>
+                  <li>主修课程：机械原理、工程力学、机器人机构设计、流体力学与传热学</li>
+                  <li>学业成绩优异，获校一等奖学金、国家励志奖学金</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 工作经历 -->
+        <div class="resume-section fade-in">
+          <h3>工作经历</h3>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-header">
+                <div>
+                  <div class="timeline-title">机械结构研发工程师</div>
+                  <div class="timeline-company">深圳市达妙科技有限公司 · AGV轮毂电机方向</div>
+                </div>
+                <span class="timeline-date">2026.07 - 至今</span>
+              </div>
+              <div class="timeline-desc">
+                <ul>
+                  <li>负责AGV底盘结构研发，完成车架、悬挂系统、传动系统三维建模与工程出图；运用AI拓扑优化工具对主承载结构轻量化迭代，车架由8.7kg减重至6.7kg，满足3倍安全系数要求</li>
+                  <li>搭建多体动力学仿真模型，覆盖满载起步、紧急制动、越障、爬坡等8种工况；运用AI仿真参数自动调优迭代悬挂阻尼与刚度参数，底盘垂直振动加速度峰值由2.1g降至1.45g</li>
+                  <li>负责差速传动系统设计校核，结合AI驱动多工况强度迭代完成3轮优化，传动效率由92.5%提升至95.8%，关键轴承使用寿命预估延长</li>
+                  <li>配合电控团队实车调试，运用大模型辅助排查异响、振动等工程问题16项，主导3轮实车测试与整改闭环</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-header">
+                <div>
+                  <div class="timeline-title">机械结构设计工程师</div>
+                  <div class="timeline-company">佛山方普防护技术有限公司 · 非标机械结构设计</div>
+                </div>
+                <span class="timeline-date">2025.10 - 2026.07</span>
+              </div>
+              <div class="timeline-desc">
+                <ul>
+                  <li>主导非标自动化设备结构设计，涵盖气压测量装置、高温老化测试设备、变形检测工装等多个项目</li>
+                  <li>运用AI生成式设计优化气路集成块结构；基于Fluent完成气路仿真优化，测量精度提升至±0.2%FS</li>
+                  <li>参与流水线自动化升级项目，配合机械臂完成上下料、检测等工序的结构对接</li>
+                  <li>独立完成CNC机加工、3D打印工艺出图，2轮设计迭代后一次装配合格率由75%提升至95%</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 项目经历 -->
+        <div class="resume-section fade-in">
+          <h3>核心项目经历</h3>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-header">
+                <div>
+                  <div class="timeline-title">半导体三轴激光雕刻机研发</div>
+                  <div class="timeline-company">结构负责人</div>
+                </div>
+                <span class="timeline-date">2025.09 - 2026.04</span>
+              </div>
+              <div class="timeline-desc">
+                <ul>
+                  <li>负责整机结构设计，包含XYZ三轴传动系统（直线导轨+滚珠丝杠）、自动调焦机构、晶圆夹紧机构、大理石龙门基座</li>
+                  <li>运用AI算法优化高速运动（最大速度2m/s）振动特性，稳态定位精度达到±3μm</li>
+                  <li>搭建机器学习几何误差补偿模型，X/Y轴定位精度由±8μm提升至±3μm，重复定位精度达±1μm</li>
+                  <li>设备最大加工速度由500mm/s提升至800mm/s，加工良率提升至99.2%</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-header">
+                <div>
+                  <div class="timeline-title">RoboMaster竞赛机器人结构研发</div>
+                  <div class="timeline-company">结构组负责人 · 空中机器人/步兵/哨兵</div>
+                </div>
+                <span class="timeline-date">2024.09 - 2025.03</span>
+              </div>
+              <div class="timeline-desc">
+                <ul>
+                  <li>带领4人结构组完成三类机器人全流程研发，获RoboMaster 2025高校联盟赛广西站冠军</li>
+                  <li>运用AI拓扑优化对步兵车架、云台支架进行生成式设计迭代，步兵整备质量由52kg降至43.8kg</li>
+                  <li>基于ANSYS建立碰撞仿真模型，运用AI驱动多工况强度迭代优化装甲板角度与加强筋布局</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-header">
+                <div>
+                  <div class="timeline-title">基于ROS2的21自由度机械臂末端灵巧手研发</div>
+                  <div class="timeline-company">结构负责人 · 毕设项目</div>
+                </div>
+                <span class="timeline-date">2025.09 - 至今</span>
+              </div>
+              <div class="timeline-desc">
+                <ul>
+                  <li>独立完成21自由度拟人灵巧手整体结构设计，5指21关节模块化指节、腱绳传动系统、集成式驱动舱</li>
+                  <li>基于Matlab Robotics Toolbox建立运动学模型，运用AI算法优化指节长度比例与关节限位</li>
+                  <li>AI生成式设计拓扑优化，满足最大单指捏力15N，整手重量控制在450g以内</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 专业技能 -->
+        <div class="resume-section fade-in" id="skills">
+          <h3>专业技能</h3>
+          <div class="skills-grid">
+            <div class="skill-item">
+              <div class="skill-item-title">三维建模与工程出图</div>
+              <div class="skill-tags">
+                <span class="skill-tag">Fusion 360</span>
+                <span class="skill-tag">SolidWorks</span>
+                <span class="skill-tag">AutoCAD</span>
+                <span class="skill-tag">钣金</span>
+                <span class="skill-tag">CNC</span>
+                <span class="skill-tag">3D打印</span>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-item-title">结构仿真与优化</div>
+              <div class="skill-tags">
+                <span class="skill-tag">ANSYS</span>
+                <span class="skill-tag">Adams</span>
+                <span class="skill-tag">Fluent</span>
+                <span class="skill-tag">拓扑优化</span>
+                <span class="skill-tag">参数化优化</span>
+                <span class="skill-tag">生成式设计</span>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-item-title">AI工程应用</div>
+              <div class="skill-tags">
+                <span class="skill-tag">AI拓扑优化</span>
+                <span class="skill-tag">AI仿真调优</span>
+                <span class="skill-tag">多工况迭代</span>
+                <span class="skill-tag">机器学习补偿</span>
+                <span class="skill-tag">大模型排障</span>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-item-title">机器人与机电</div>
+              <div class="skill-tags">
+                <span class="skill-tag">ROS2</span>
+                <span class="skill-tag">运动学/动力学</span>
+                <span class="skill-tag">Matlab</span>
+                <span class="skill-tag">PLC</span>
+                <span class="skill-tag">传感器选型</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 荣誉奖项 -->
+        <div class="resume-section fade-in" id="awards">
+          <h3>荣誉奖项</h3>
+          <div class="awards-list">
+            <div class="award-item">
+              <div class="award-icon">🏆</div>
+              <div>
+                <div class="award-text">RoboMaster 2025年"高校联盟赛"3V3对抗赛 广西站冠军</div>
+                <div class="award-level">省级 · 冠军</div>
+              </div>
+            </div>
+            <div class="award-item">
+              <div class="award-icon">🥉</div>
+              <div>
+                <div class="award-text">第十八届"高教杯"全国大学生先进成图技术大赛 增材制造 全国三等奖</div>
+                <div class="award-level">国家级 · 个人</div>
+              </div>
+            </div>
+            <div class="award-item">
+              <div class="award-icon">🥉</div>
+              <div>
+                <div class="award-text">第十七届"高教杯"全国大学生先进成图技术大赛 机械类 全国三等奖</div>
+                <div class="award-level">国家级 · 个人</div>
+              </div>
+            </div>
+            <div class="award-item">
+              <div class="award-icon">🥈</div>
+              <div>
+                <div class="award-text">第十七届"高教杯"全国大学生先进成图技术大赛 团体全国二等奖</div>
+                <div class="award-level">国家级 · 团体</div>
+              </div>
+            </div>
+            <div class="award-item">
+              <div class="award-icon">🥈</div>
+              <div>
+                <div class="award-text">2025年广东省工科大学生实验综合技能竞赛 省级二等奖</div>
+                <div class="award-level">省级</div>
+              </div>
+            </div>
+            <div class="award-item">
+              <div class="award-icon">📚</div>
+              <div>
+                <div class="award-text">校一等奖学金、国家励志奖学金</div>
+                <div class="award-level">校级 · 国家级</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer class="footer" id="contact">
+  <div class="footer-bg">
+    <img src="bg-footer.jpg" alt="" loading="lazy" onload="this.classList.add('loaded')">
+  </div>
+  <div class="footer-inner">
+    <div class="footer-text">
+      © 2026 王政杰 · 机械结构工程师作品集
+    </div>
+    <ul class="footer-links">
+      <li><a href="#hero">首页</a></li>
+      <li><a href="#projects">项目作品</a></li>
+      <li><a href="#about">关于我</a></li>
+      <li><a href="王政杰_机械结构工程师简历_2027届秋招2.pdf" target="_blank">下载简历</a></li>
+    </ul>
+  </div>
+</footer>
+
+<!-- ===== Lightbox ===== -->
+<div class="lightbox" id="lightbox" role="dialog" aria-label="大图查看" aria-modal="true">
+  <button class="lightbox-close" id="lightboxClose" aria-label="关闭">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <line x1="18" y1="6" x2="6" y2="18"/>
+      <line x1="6" y1="6" x2="18" y2="18"/>
+    </svg>
+  </button>
+  <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="上一张">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+  </button>
+  <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="下一张">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <polyline points="9 18 15 12 9 6"/>
+    </svg>
+  </button>
+  <div class="lightbox-content">
+    <div class="lightbox-img-wrapper" id="lightboxMedia">
+      <img id="lightboxImg" src="" alt="">
+      <div id="lightboxStepContainer" style="display:none"></div>
+    </div>
+    <div class="lightbox-caption">
+      <strong id="lightboxTitle"></strong>
+      <span id="lightboxDesc"></span>
+    </div>
+  </div>
+  <div class="lightbox-counter" id="lightboxCounter"></div>
+</div>
+
+<!-- ===== 3D Viewer Libraries ===== -->
+<script src="https://unpkg.com/three@0.128.0/build/three.min.js"></script>
+<script src="https://unpkg.com/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="lib/occt-import-js.js"></script>
+
+<script>
+  // ===== 3D STEP Viewer Engine =====
+  let occtReady = null;
+  let stepBuffer = null;
+
+  function initOcct() {
+    if (occtReady) return occtReady;
+    occtReady = occtimportjs({ locateFile: p => 'lib/' + p });
+    return occtReady;
+  }
+
+  async function loadStepBuffer(file) {
+    if (stepBuffer) return stepBuffer;
+    const res = await fetch(file);
+    stepBuffer = await res.arrayBuffer();
+    return stepBuffer;
+  }
+
+  function buildMeshFromOcct(result) {
+    const meshes = result.meshes;
+    if (!meshes || meshes.length === 0) return null;
+
+    let posAll = [], idxAll = [], nrmAll = [];
+    let vOff = 0;
+    for (const m of meshes) {
+      const pos = m.attributes.position.array;
+      const idx = m.index.array;
+      const nrm = m.attributes.normal ? m.attributes.normal.array : null;
+      for (let i = 0; i < pos.length; i++) posAll.push(pos[i]);
+      if (nrm) for (let i = 0; i < nrm.length; i++) nrmAll.push(nrm[i]);
+      for (let i = 0; i < idx.length; i++) idxAll.push(idx[i] + vOff);
+      vOff += pos.length / 3;
+    }
+
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(posAll, 3));
+    if (nrmAll.length > 0) {
+      geo.setAttribute('normal', new THREE.Float32BufferAttribute(nrmAll, 3));
+    } else {
+      geo.computeVertexNormals();
+    }
+    geo.setIndex(idxAll);
+
+    const mat = new THREE.MeshStandardMaterial({
+      color: 0x5fa8ff,
+      metalness: 0.35,
+      roughness: 0.45,
+      flatShading: false
+    });
+    return new THREE.Mesh(geo, mat);
+  }
+
+  const viewerStates = new Map();
+
+  function createViewer(container, w, h) {
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0e1623);
+
+    const cam = new THREE.PerspectiveCamera(40, w / h, 0.1, 5000);
+    cam.position.set(120, 90, 150);
+
+    const rend = new THREE.WebGLRenderer({ antialias: true });
+    rend.setSize(w, h);
+    rend.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    container.appendChild(rend.domElement);
+
+    const amb = new THREE.AmbientLight(0x557799, 0.45);
+    scene.add(amb);
+    const d1 = new THREE.DirectionalLight(0xffffff, 0.85);
+    d1.position.set(60, 120, 80); scene.add(d1);
+    const d2 = new THREE.DirectionalLight(0x4a9eff, 0.25);
+    d2.position.set(-60, 40, -60); scene.add(d2);
+
+    const ctrls = new THREE.OrbitControls(cam, rend.domElement);
+    ctrls.enableDamping = true;
+    ctrls.dampingFactor = 0.1;
+    ctrls.rotateSpeed = 0.8;
+    ctrls.zoomSpeed = 0.9;
+
+    return { scene, cam, rend, ctrls };
+  }
+
+  function fitMesh(mesh, cam, ctrls) {
+    const box = new THREE.Box3().setFromObject(mesh);
+    const center = box.getCenter(new THREE.Vector3());
+    const size = box.getSize(new THREE.Vector3());
+    const maxD = Math.max(size.x, size.y, size.z, 1);
+    const s = 100 / maxD;
+    mesh.scale.setScalar(s);
+    mesh.position.sub(center.clone().multiplyScalar(s));
+    const ns = box.getSize(new THREE.Vector3()).multiplyScalar(s);
+    const dist = Math.max(ns.x, ns.y, ns.z) * 2.2;
+    cam.position.set(dist * 0.7, dist * 0.5, dist * 0.85);
+    ctrls.target.set(0, 0, 0);
+    ctrls.update();
+  }
+
+  async function initStepViewer(container, stepFile, isLarge) {
+    if (viewerStates.has(container)) {
+      cancelAnimationFrame(viewerStates.get(container).rafId);
+      const st = viewerStates.get(container);
+      st.rend.dispose();
+      while (container.firstChild) container.removeChild(container.firstChild);
+      viewerStates.delete(container);
+    }
+
+    const w = container.clientWidth || 400;
+    const h = container.clientHeight || 300;
+
+    const loading = document.createElement('div');
+    loading.className = 'step-loading';
+    loading.innerHTML = '<div class="spinner"></div>加载 3D 模型…';
+    container.appendChild(loading);
+
+    try {
+      const [occt, buf] = await Promise.all([initOcct(), loadStepBuffer(stepFile)]);
+      const result = occt.ReadStepFile(new Uint8Array(buf), null);
+      if (!result.success) throw new Error('STEP parse failed');
+
+      loading.remove();
+      const vs = createViewer(container, w, h);
+      const mesh = buildMeshFromOcct(result);
+      vs.scene.add(mesh);
+      fitMesh(mesh, vs.cam, vs.ctrls);
+
+      function loop() {
+        vs.rafId = requestAnimationFrame(loop);
+        vs.ctrls.update();
+        vs.rend.render(vs.scene, vs.cam);
+      }
+      loop();
+
+      vs.resize = () => {
+        const nw = container.clientWidth || w;
+        const nh = container.clientHeight || h;
+        vs.cam.aspect = nw / nh;
+        vs.cam.updateProjectionMatrix();
+        vs.rend.setSize(nw, nh);
+      };
+      viewerStates.set(container, vs);
+
+      if (isLarge) vs.cam.position.multiplyScalar(1.3);
+    } catch (e) {
+      loading.innerHTML = '3D 模型加载失败<br><span style="font-size:10px;opacity:0.6">' + e.message + '</span>';
+    }
+  }
+
+  // Init card viewer when visible
+  const stepCard = document.querySelector('[data-step]');
+  if (stepCard) {
+    const cardViewer = document.getElementById('stepCardViewer');
+    const cardObs = new IntersectionObserver(async (entries) => {
+      if (entries[0].isIntersecting) {
+        cardObs.disconnect();
+        initStepViewer(cardViewer, stepCard.dataset.step, false);
+      }
+    }, { threshold: 0.2 });
+    cardObs.observe(stepCard);
+  }
+
+  // Global resize handler
+  window.addEventListener('resize', () => {
+    viewerStates.forEach(vs => { if (vs.resize) vs.resize(); });
+  });
+</script>
+
+<script>
+  // ===== Navigation active state on scroll =====
+  const sections = document.querySelectorAll('section[id], footer[id]');
+  const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+
+  function setActiveNav() {
+    let current = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop - 100;
+      if (window.scrollY >= sectionTop) {
+        current = section.getAttribute('id');
+      }
+    });
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) {
+        link.classList.add('active');
+      }
+    });
+  }
+
+  // ===== Nav scroll effect =====
+  const nav = document.getElementById('nav');
+  function onScroll() {
+    setActiveNav();
+    if (window.scrollY > 20) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  // ===== Mobile menu toggle =====
+  const mobileToggle = document.getElementById('mobileToggle');
+  const navLinksEl = document.getElementById('navLinks');
+  mobileToggle.addEventListener('click', () => {
+    navLinksEl.classList.toggle('open');
+    mobileToggle.setAttribute('aria-expanded', navLinksEl.classList.contains('open'));
+  });
+  navLinksEl.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      navLinksEl.classList.remove('open');
+      mobileToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // ===== Category filter =====
+  const catTabs = document.querySelectorAll('.cat-tab');
+  const projectCards = document.querySelectorAll('.project-card');
+  let currentCat = 'all';
+
+  catTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const cat = tab.dataset.cat;
+      currentCat = cat;
+
+      catTabs.forEach(t => {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+
+      projectCards.forEach(card => {
+        if (cat === 'all' || card.dataset.cat === cat) {
+          card.style.display = '';
+          requestAnimationFrame(() => {
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+          });
+        } else {
+          card.style.opacity = '0';
+          card.style.transform = 'translateY(10px)';
+          setTimeout(() => {
+            card.style.display = 'none';
+          }, 200);
+        }
+      });
+    });
+  });
+
+  // ===== Lightbox =====
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  const lightboxTitle = document.getElementById('lightboxTitle');
+  const lightboxDesc = document.getElementById('lightboxDesc');
+  const lightboxClose = document.getElementById('lightboxClose');
+  const lightboxPrev = document.getElementById('lightboxPrev');
+  const lightboxNext = document.getElementById('lightboxNext');
+  const lightboxCounter = document.getElementById('lightboxCounter');
+
+  let currentIndex = 0;
+  let filteredProjects = [];
+
+  function updateFilteredProjects() {
+    filteredProjects = Array.from(projectCards)
+      .filter(card => card.style.display !== 'none');
+  }
+
+  function getCardMedia(card) {
+    if (card.dataset.step) return { type: 'step', file: card.dataset.step };
+    const img = card.querySelector('img');
+    if (img && img.style.display !== 'none') return { type: 'img', src: img.src, alt: img.alt };
+    if (img) return { type: 'img', src: img.src, alt: img.alt };
+    const svg = card.querySelector('svg');
+    if (svg) return { type: 'svg', svgHTML: svg.outerHTML };
+    return null;
+  }
+
+  function setLightboxMedia(media) {
+    const wrapper = document.getElementById('lightboxMedia');
+    wrapper.innerHTML = '';
+    if (!media) return;
+    if (media.type === 'step') {
+      const stepDiv = document.createElement('div');
+      stepDiv.id = 'lightboxStepContainer';
+      stepDiv.style.cssText = 'width:100%;height:100%;position:relative;';
+      wrapper.appendChild(stepDiv);
+      initStepViewer(stepDiv, media.file, true);
+    } else if (media.type === 'img') {
+      const img = document.createElement('img');
+      img.id = 'lightboxImg';
+      img.src = media.src;
+      img.alt = media.alt || '';
+      wrapper.appendChild(img);
+    } else if (media.type === 'svg') {
+      wrapper.innerHTML = media.svgHTML;
+      const svg = wrapper.querySelector('svg');
+      if (svg) {
+        svg.removeAttribute('class');
+        svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+      }
+    }
+  }
+
+  function openLightbox(index) {
+    updateFilteredProjects();
+    const card = filteredProjects[index];
+    if (!card) return;
+
+    currentIndex = index;
+    const media = getCardMedia(card);
+    const title = card.querySelector('.project-card-title').textContent;
+    const desc = card.querySelector('.project-card-desc').textContent;
+
+    setLightboxMedia(media);
+    lightboxTitle.textContent = title;
+    lightboxDesc.textContent = ' · ' + desc;
+    lightboxCounter.textContent = (index + 1) + ' / ' + filteredProjects.length;
+
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    const lbStep = document.getElementById('lightboxStepContainer');
+    if (lbStep && viewerStates.has(lbStep)) {
+      const st = viewerStates.get(lbStep);
+      cancelAnimationFrame(st.rafId);
+      st.rend.dispose();
+      viewerStates.delete(lbStep);
+    }
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function showPrev() {
+    currentIndex = (currentIndex - 1 + filteredProjects.length) % filteredProjects.length;
+    openLightboxFromFiltered(currentIndex);
+  }
+
+  function showNext() {
+    currentIndex = (currentIndex + 1) % filteredProjects.length;
+    openLightboxFromFiltered(currentIndex);
+  }
+
+  function openLightboxFromFiltered(index) {
+    const card = filteredProjects[index];
+    if (!card) return;
+
+    // Cleanup previous step viewer if any
+    const oldStep = document.getElementById('lightboxStepContainer');
+    if (oldStep && viewerStates.has(oldStep)) {
+      const st = viewerStates.get(oldStep);
+      cancelAnimationFrame(st.rafId);
+      st.rend.dispose();
+      viewerStates.delete(oldStep);
+    }
+
+    const media = getCardMedia(card);
+    const title = card.querySelector('.project-card-title').textContent;
+    const desc = card.querySelector('.project-card-desc').textContent;
+
+    const wrapper = document.getElementById('lightboxMedia');
+    wrapper.style.opacity = '0';
+    setTimeout(() => {
+      setLightboxMedia(media);
+      lightboxTitle.textContent = title;
+      lightboxDesc.textContent = ' · ' + desc;
+      lightboxCounter.textContent = (index + 1) + ' / ' + filteredProjects.length;
+      wrapper.style.opacity = '1';
+    }, 150);
+  }
+
+  projectCards.forEach(card => {
+    card.addEventListener('click', () => {
+      updateFilteredProjects();
+      const idx = filteredProjects.indexOf(card);
+      if (idx !== -1) openLightbox(idx);
+    });
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        updateFilteredProjects();
+        const idx = filteredProjects.indexOf(card);
+        if (idx !== -1) openLightbox(idx);
+      }
+    });
+  });
+
+  lightboxClose.addEventListener('click', closeLightbox);
+  lightboxPrev.addEventListener('click', showPrev);
+  lightboxNext.addEventListener('click', showNext);
+
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('active')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') showPrev();
+    if (e.key === 'ArrowRight') showNext();
+  });
+
+  // Lightbox image transition
+  lightboxImg.style.transition = 'opacity 0.15s ease';
+
+  // ===== Scroll reveal animations =====
+  const fadeEls = document.querySelectorAll('.fade-in, .fade-in-stagger');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.1,
+    rootMargin: '0px 0px -40px 0px'
+  });
+
+  fadeEls.forEach(el => observer.observe(el));
+
+  // ===== Counter animation =====
+  const counters = document.querySelectorAll('[data-count]');
+  const counterObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      counterObs.unobserve(entry.target);
+      const target = parseInt(entry.target.dataset.count, 10);
+      const duration = 1200;
+      const start = performance.now();
+      function tick(now) {
+        const p = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        entry.target.textContent = Math.round(target * eased);
+        if (p < 1) requestAnimationFrame(tick);
+        else entry.target.textContent = target;
+      }
+      requestAnimationFrame(tick);
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(c => counterObs.observe(c));
+</script>
+</body>
+</html>
