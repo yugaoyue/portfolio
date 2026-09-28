@@ -1500,38 +1500,44 @@
   .step-viewer-container:active { cursor: grabbing; }
   .step-viewer-container canvas { display: block; width: 100% !important; height: 100% !important; }
 
-  /* ===== Hover Detail Card (Desktop Only) ===== */
-  .detail-card {
+  /* ===== Left Sidebar Certificate Showcase (Desktop Only) ===== */
+  .cert-sidebar {
     position: fixed;
-    bottom: 24px;
+    top: 84px;
     left: 24px;
-    width: 320px;
+    width: 280px;
+    max-height: calc(100vh - 108px);
     background: var(--bg-glass-strong);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     border: 1px solid var(--border-strong);
     border-radius: var(--radius);
     box-shadow: var(--shadow-lg);
-    z-index: 50;
+    z-index: 40;
     overflow: hidden;
-    transition: opacity 0.3s var(--ease-out), transform 0.3s var(--ease-out);
-    opacity: 0;
-    transform: translateY(20px);
-    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    transition: opacity 0.4s var(--ease-out);
   }
 
-  .detail-card.visible {
-    opacity: 1;
-    transform: translateY(0);
+  .cert-sidebar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent-glow), transparent);
   }
 
-  .detail-card-header {
-    padding: 14px 18px 12px;
+  .cert-sidebar-header {
+    padding: 14px 18px 10px;
     border-bottom: 1px solid var(--border);
     background: linear-gradient(135deg, rgba(74,158,255,0.06) 0%, transparent 100%);
+    flex-shrink: 0;
   }
 
-  .detail-card-label {
+  .cert-sidebar-label {
     font-size: 10px;
     color: var(--accent-bright);
     text-transform: uppercase;
@@ -1543,82 +1549,128 @@
     gap: 6px;
   }
 
-  .detail-card-label::before {
+  .cert-sidebar-label::before {
     content: '';
     width: 5px;
     height: 5px;
     border-radius: 50%;
     background: var(--accent);
     box-shadow: 0 0 8px var(--accent-glow);
+    animation: pulse-dot 2s ease-in-out infinite;
   }
 
-  .detail-card-title {
-    font-size: 15px;
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .cert-sidebar-title {
+    font-size: 14px;
     font-weight: 700;
     color: var(--text-primary);
     line-height: 1.3;
-    transition: opacity 0.2s ease, transform 0.2s ease;
   }
 
-  .detail-card-body {
-    padding: 14px 18px 16px;
+  .cert-sidebar-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 14px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-glow) transparent;
   }
 
-  .detail-card-params {
-    display: flex;
+  .cert-sidebar-body::-webkit-scrollbar { width: 4px; }
+  .cert-sidebar-body::-webkit-scrollbar-track { background: transparent; }
+  .cert-sidebar-body::-webkit-scrollbar-thumb { background: var(--accent-glow); border-radius: 2px; }
+
+  .cert-panel {
+    display: none;
     flex-direction: column;
-    gap: 8px;
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    gap: 12px;
   }
 
-  .detail-card-param {
+  .cert-panel.active {
     display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 12px;
+    animation: certFadeIn 0.5s var(--ease-out) forwards;
   }
 
-  .detail-card-param-key {
+  @keyframes certFadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .cert-item {
+    cursor: pointer;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    transition: transform 0.25s var(--ease-out), border-color 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out);
+  }
+
+  .cert-item:hover {
+    transform: scale(1.04);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent-glow), 0 4px 12px rgba(74,158,255,0.15);
+  }
+
+  .cert-item-img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    background: var(--bg-deep);
+    position: relative;
+  }
+
+  .cert-item-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s var(--ease-out);
+  }
+
+  .cert-item:hover .cert-item-img img {
+    transform: scale(1.08);
+  }
+
+  .cert-item-info {
+    padding: 8px 10px;
+  }
+
+  .cert-item-name {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.3;
+    margin-bottom: 2px;
+  }
+
+  .cert-item-meta {
+    font-size: 9px;
     color: var(--text-muted);
     font-family: var(--mono);
-    white-space: nowrap;
-    min-width: 70px;
+    line-height: 1.4;
   }
 
-  .detail-card-param-val {
-    color: var(--text-primary);
-    font-weight: 500;
-    text-align: right;
-    margin-left: auto;
-  }
-
-  .detail-card-default {
-    padding: 18px;
+  .cert-sidebar-empty {
+    padding: 24px 18px;
     text-align: center;
   }
 
-  .detail-card-default-icon {
-    font-size: 24px;
-    margin-bottom: 8px;
-    opacity: 0.4;
+  .cert-sidebar-empty-icon {
+    font-size: 22px;
+    margin-bottom: 6px;
+    opacity: 0.3;
   }
 
-  .detail-card-default-text {
-    font-size: 12px;
+  .cert-sidebar-empty-text {
+    font-size: 11px;
     color: var(--text-muted);
     line-height: 1.5;
   }
 
-  .detail-card-default-hint {
-    font-size: 10px;
-    color: var(--text-muted);
-    margin-top: 6px;
-    opacity: 0.6;
-    font-family: var(--mono);
-  }
-
   @media (max-width: 960px) {
-    .detail-card { display: none !important; }
+    .cert-sidebar { display: none !important; }
   }
   .step-badge {
     position: absolute;
@@ -2777,19 +2829,73 @@
   </div>
 </footer>
 
-<!-- ===== Hover Detail Card (Desktop Only) ===== -->
-<aside class="detail-card" id="detailCard" aria-live="polite">
-  <div class="detail-card-header">
-    <div class="detail-card-label" id="detailLabel">悬停查看详情</div>
-    <div class="detail-card-title" id="detailTitle">将鼠标移至任意项目卡片</div>
+<!-- ===== Left Sidebar Certificate Showcase (Desktop Only) ===== -->
+<aside class="cert-sidebar" id="certSidebar" aria-live="polite">
+  <div class="cert-sidebar-header">
+    <div class="cert-sidebar-label" id="certSidebarLabel">滚动查看证书</div>
+    <div class="cert-sidebar-title" id="certSidebarTitle">滚动至技能或荣誉板块</div>
   </div>
-  <div class="detail-card-body">
-    <div class="detail-card-default" id="detailDefault">
-      <div class="detail-card-default-icon">⚡</div>
-      <div class="detail-card-default-text">悬停于项目卡片、技能标签或经历节点</div>
-      <div class="detail-card-default-hint">查看技术参数与延伸信息</div>
+  <div class="cert-sidebar-body">
+    <!-- Default empty state -->
+    <div class="cert-panel active" id="certPanelDefault">
+      <div class="cert-sidebar-empty">
+        <div class="cert-sidebar-empty-icon">🏅</div>
+        <div class="cert-sidebar-empty-text">滚动至「专业技能」或「荣誉奖项」板块<br>查看证书与奖状</div>
+      </div>
     </div>
-    <div class="detail-card-params" id="detailParams" style="display:none;"></div>
+
+    <!-- Skills certificates panel -->
+    <div class="cert-panel" id="certPanelSkills">
+      <div class="cert-item" data-cert-group="skills" data-cert-index="0" tabindex="0" role="button" aria-label="查看证书大图">
+        <div class="cert-item-img">
+          <img src="cert_gaojiaocup_18th.jpg" alt="高教杯第18届证书" loading="lazy">
+        </div>
+        <div class="cert-item-info">
+          <div class="cert-item-name">高教杯全国大学生先进成图大赛</div>
+          <div class="cert-item-meta">全国三等奖 · 2025</div>
+        </div>
+      </div>
+      <div class="cert-item" data-cert-group="skills" data-cert-index="1" tabindex="0" role="button" aria-label="查看证书大图">
+        <div class="cert-item-img">
+          <img src="cert_gaojiaocup_17th.jpg" alt="高教杯第17届证书" loading="lazy">
+        </div>
+        <div class="cert-item-info">
+          <div class="cert-item-name">高教杯全国大学生先进成图大赛</div>
+          <div class="cert-item-meta">全国三等奖 · 2024</div>
+        </div>
+      </div>
+      <div class="cert-item" data-cert-group="skills" data-cert-index="2" tabindex="0" role="button" aria-label="查看证书大图">
+        <div class="cert-item-img">
+          <img src="cert_experimental.pdf" alt="实验创新证书" loading="lazy" onerror="this.parentElement.innerHTML='<div style=display:flex;align-items:center;justify-content:center;height:100%;font-size:24px>📄</div>'">
+        </div>
+        <div class="cert-item-info">
+          <div class="cert-item-name">实验创新等级认证</div>
+          <div class="cert-item-meta">校级 · 2024</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Awards certificates panel -->
+    <div class="cert-panel" id="certPanelAwards">
+      <div class="cert-item" data-cert-group="awards" data-cert-index="0" tabindex="0" role="button" aria-label="查看奖状大图">
+        <div class="cert-item-img">
+          <img src="cert_challenge_cup.jpg" alt="挑战杯奖状" loading="lazy">
+        </div>
+        <div class="cert-item-info">
+          <div class="cert-item-name">挑战杯大学生课外学术科技作品</div>
+          <div class="cert-item-meta">校级 · 2025</div>
+        </div>
+      </div>
+      <div class="cert-item" data-cert-group="awards" data-cert-index="1" tabindex="0" role="button" aria-label="查看奖状大图">
+        <div class="cert-item-img">
+          <img src="robomaster_team.jpg" alt="RoboMaster团队奖" loading="lazy">
+        </div>
+        <div class="cert-item-info">
+          <div class="cert-item-name">RoboMaster机甲大师赛</div>
+          <div class="cert-item-meta">团队奖项 · 2024</div>
+        </div>
+      </div>
+    </div>
   </div>
 </aside>
 
@@ -3165,7 +3271,9 @@
       viewerStates.delete(lbStep);
     }
     lightbox.classList.remove('active');
+    lightbox.classList.remove('open');
     document.body.style.overflow = '';
+    certLbActive = false;
   }
 
   function showPrev() {
@@ -3223,16 +3331,30 @@
   });
 
   lightboxClose.addEventListener('click', closeLightbox);
-  lightboxPrev.addEventListener('click', showPrev);
-  lightboxNext.addEventListener('click', showNext);
+  lightboxPrev.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (certLbActive) { certLbPrev(); return; }
+    showPrev();
+  });
+  lightboxNext.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (certLbActive) { certLbNext(); return; }
+    showNext();
+  });
 
   lightbox.addEventListener('click', (e) => {
     if (e.target === lightbox) closeLightbox();
   });
 
   document.addEventListener('keydown', (e) => {
-    if (!lightbox.classList.contains('active')) return;
+    if (!lightbox.classList.contains('active') && !lightbox.classList.contains('open')) return;
     if (e.key === 'Escape') closeLightbox();
+    if (certLbActive) {
+      if (e.key === 'ArrowLeft') certLbPrev();
+      if (e.key === 'ArrowRight') certLbNext();
+      return;
+    }
+    if (!lightbox.classList.contains('active')) return;
     if (e.key === 'ArrowLeft') showPrev();
     if (e.key === 'ArrowRight') showNext();
   });
@@ -3278,109 +3400,121 @@
   }, { threshold: 0.5 });
   counters.forEach(c => counterObs.observe(c));
 
-  // ===== Hover Detail Card (Desktop Only) =====
-  const detailCard = document.getElementById('detailCard');
-  const detailLabel = document.getElementById('detailLabel');
-  const detailTitle = document.getElementById('detailTitle');
-  const detailDefault = document.getElementById('detailDefault');
-  const detailParams = document.getElementById('detailParams');
-  let detailTimer = null;
-  let isDesktop = window.innerWidth > 960;
-
-  function updateIsDesktop() { isDesktop = window.innerWidth > 960; }
-  window.addEventListener('resize', updateIsDesktop);
-
-  function showDetail(title, params, label) {
-    if (!isDesktop) return;
-    clearTimeout(detailTimer);
-    detailLabel.textContent = label || '项目详情';
-    detailTitle.style.opacity = '0';
-    detailTitle.style.transform = 'translateY(-6px)';
-    detailParams.style.opacity = '0';
-    detailParams.style.transform = 'translateY(-6px)';
-
-    setTimeout(() => {
-      detailTitle.textContent = title;
-      if (params) {
-        detailDefault.style.display = 'none';
-        detailParams.style.display = 'flex';
-        detailParams.innerHTML = '';
-        params.split('|').forEach(p => {
-          const [k, v] = p.split(':').map(s => s.trim());
-          if (!k || !v) return;
-          const row = document.createElement('div');
-          row.className = 'detail-card-param';
-          row.innerHTML = '<span class="detail-card-param-key">' + k + '</span><span class="detail-card-param-val">' + v + '</span>';
-          detailParams.appendChild(row);
-        });
-      } else {
-        detailDefault.style.display = 'block';
-        detailParams.style.display = 'none';
-      }
-      detailTitle.style.opacity = '1';
-      detailTitle.style.transform = 'translateY(0)';
-      detailParams.style.opacity = '1';
-      detailParams.style.transform = 'translateY(0)';
-    }, 150);
-
-    detailCard.classList.add('visible');
-  }
-
-  function hideDetail() {
-    detailTimer = setTimeout(() => {
-      detailCard.classList.remove('visible');
-      setTimeout(() => {
-        detailLabel.textContent = '悬停查看详情';
-        detailTitle.textContent = '将鼠标移至任意项目卡片';
-        detailDefault.style.display = 'block';
-        detailParams.style.display = 'none';
-      }, 300);
-    }, 800);
-  }
-
-  // Bind to project cards
-  document.querySelectorAll('.project-card[data-detail-title]').forEach(card => {
-    card.addEventListener('mouseenter', () => {
-      showDetail(card.dataset.detailTitle, card.dataset.detailParams, '项目技术参数');
-    });
-    card.addEventListener('mouseleave', hideDetail);
-  });
-
-  // Bind to skill items
-  const skillDetails = {
-    '三维建模与工程出图': '熟练度: 精通(4年) | 软件: Fusion 360/SolidWorks/AutoCAD | 能力: 钣金/CNC出图/3D打印 | 出图标准: GB/T 17452',
-    '结构仿真与优化': '熟练度: 熟练(3年) | 软件: ANSYS/Adams/Fluent | 能力: 拓扑优化/参数化优化/生成式设计 | 工况: 静载/冲击/跌落/振动',
-    'AI工程应用': '熟练度: 熟练(2年) | 能力: AI拓扑优化/AI仿真调优/多工况迭代/机器学习补偿/大模型排障 | 效率提升: 3倍',
-    '机器人与机电': '熟练度: 熟练(2年) | 框架: ROS2 | 能力: 运动学/动力学建模 | 工具: Matlab | 硬件: PLC/传感器选型'
+  // ===== Certificate Sidebar Scroll Sync =====
+  const certSidebar = document.getElementById('certSidebar');
+  const certSidebarLabel = document.getElementById('certSidebarLabel');
+  const certSidebarTitle = document.getElementById('certSidebarTitle');
+  const certPanels = {
+    default: document.getElementById('certPanelDefault'),
+    skills: document.getElementById('certPanelSkills'),
+    awards: document.getElementById('certPanelAwards')
   };
 
-  document.querySelectorAll('.skill-item').forEach(item => {
-    const title = item.querySelector('.skill-item-title');
-    if (!title) return;
-    const key = title.textContent.trim();
-    item.addEventListener('mouseenter', () => {
-      if (skillDetails[key]) {
-        showDetail(key + ' · 技能详情', skillDetails[key], '技能熟练度');
+  function showCertPanel(name, label, title) {
+    Object.values(certPanels).forEach(p => p.classList.remove('active'));
+    if (certPanels[name]) {
+      certPanels[name].classList.add('active');
+      certSidebarLabel.textContent = label;
+      certSidebarTitle.textContent = title;
+    }
+  }
+
+  // Detect when skills section is in view
+  const skillsSection = document.getElementById('skills');
+  const awardsSection = document.getElementById('awards');
+
+  function detectActiveSection() {
+    if (window.innerWidth <= 960) return;
+    const scrollY = window.scrollY;
+    const winH = window.innerHeight;
+    const skillsTop = skillsSection ? skillsSection.offsetTop : 0;
+    const skillsBottom = skillsTop + (skillsSection ? skillsSection.offsetHeight : 0);
+    const awardsTop = awardsSection ? awardsSection.offsetTop : 0;
+    const awardsBottom = awardsTop + (awardsSection ? awardsSection.offsetHeight : 0);
+
+    if (scrollY + winH * 0.4 >= awardsTop && scrollY < awardsBottom + 200) {
+      showCertPanel('awards', '荣誉奖项', '荣誉证书与奖状');
+    } else if (scrollY + winH * 0.4 >= skillsTop && scrollY < skillsBottom + 200) {
+      showCertPanel('skills', '专业技能', '技能认证证书');
+    } else {
+      showCertPanel('default', '滚动查看证书', '滚动至技能或荣誉板块');
+    }
+  }
+
+  let certScrollTimer = null;
+  window.addEventListener('scroll', () => {
+    clearTimeout(certScrollTimer);
+    certScrollTimer = setTimeout(detectActiveSection, 50);
+  });
+  detectActiveSection();
+
+  // ===== Certificate Lightbox =====
+  const certImages = {
+    skills: [
+      { src: 'cert_gaojiaocup_18th.jpg', name: '高教杯全国大学生先进成图大赛 · 全国三等奖', meta: '2025' },
+      { src: 'cert_gaojiaocup_17th.jpg', name: '高教杯全国大学生先进成图大赛 · 全国三等奖', meta: '2024' },
+      { src: 'cert_experimental.pdf', name: '实验创新等级认证', meta: '校级 · 2024' }
+    ],
+    awards: [
+      { src: 'cert_challenge_cup.jpg', name: '挑战杯大学生课外学术科技作品', meta: '校级 · 2025' },
+      { src: 'robomaster_team.jpg', name: 'RoboMaster机甲大师赛', meta: '团队奖项 · 2024' }
+    ]
+  };
+
+  let certLbGroup = 'skills';
+  let certLbIndex = 0;
+  let certLbActive = false;
+
+  function openCertLightbox(group, index) {
+    certLbGroup = group;
+    certLbIndex = index;
+    certLbActive = true;
+    updateCertLightbox();
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function updateCertLightbox() {
+    const imgs = certImages[certLbGroup] || [];
+    const img = imgs[certLbIndex];
+    if (!img) return;
+    const lbImg = document.getElementById('lightboxImg');
+    const lbCaption = document.getElementById('lightboxCaption');
+    const lbCounter = document.getElementById('lightboxCounter');
+    if (lbImg) {
+      lbImg.src = img.src;
+      lbImg.alt = img.name;
+    }
+    if (lbCaption) lbCaption.textContent = img.name + ' · ' + img.meta;
+    if (lbCounter) lbCounter.textContent = (certLbIndex + 1) + ' / ' + imgs.length;
+  }
+
+  function certLbNext() {
+    const imgs = certImages[certLbGroup] || [];
+    certLbIndex = (certLbIndex + 1) % imgs.length;
+    updateCertLightbox();
+  }
+
+  function certLbPrev() {
+    const imgs = certImages[certLbGroup] || [];
+    certLbIndex = (certLbIndex - 1 + imgs.length) % imgs.length;
+    updateCertLightbox();
+  }
+
+  document.querySelectorAll('.cert-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const group = item.dataset.certGroup;
+      const index = parseInt(item.dataset.certIndex);
+      openCertLightbox(group, index);
+    });
+    item.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        const group = item.dataset.certGroup;
+        const index = parseInt(item.dataset.certIndex);
+        openCertLightbox(group, index);
       }
     });
-    item.addEventListener('mouseleave', hideDetail);
-  });
-
-  // Bind to timeline items
-  document.querySelectorAll('.timeline-item').forEach(item => {
-    const titleEl = item.querySelector('.timeline-title');
-    const companyEl = item.querySelector('.timeline-company');
-    const dateEl = item.querySelector('.timeline-date');
-    if (!titleEl) return;
-    const title = titleEl.textContent.trim();
-    const company = companyEl ? companyEl.textContent.trim() : '';
-    const date = dateEl ? dateEl.textContent.trim() : '';
-    const descItems = item.querySelectorAll('.timeline-desc li');
-    const params = Array.from(descItems).slice(0, 4).map(li => '职责: ' + li.textContent.trim().substring(0, 40)).join(' | ');
-    item.addEventListener('mouseenter', () => {
-      showDetail(title, (company + ' | 时间: ' + date + ' | ' + params).substring(0, 200), '经历详情');
-    });
-    item.addEventListener('mouseleave', hideDetail);
   });
 </script>
 </body>
