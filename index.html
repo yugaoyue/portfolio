@@ -695,8 +695,9 @@
   /* ===== About / Resume ===== */
   .about-grid {
     display: grid;
-    grid-template-columns: 1fr 1.4fr;
-    gap: 64px;
+    grid-template-columns: 360px 1fr;
+    gap: 56px;
+    align-items: start;
   }
 
   .about-sidebar {
@@ -1282,7 +1283,7 @@
 
   /* ===== Contact / Footer ===== */
   .footer {
-    padding: 64px 32px 40px;
+    padding: 48px 32px 32px;
     border-top: 1px solid var(--border-strong);
     background: var(--bg-deep);
     position: relative;
@@ -1498,6 +1499,127 @@
   }
   .step-viewer-container:active { cursor: grabbing; }
   .step-viewer-container canvas { display: block; width: 100% !important; height: 100% !important; }
+
+  /* ===== Hover Detail Card (Desktop Only) ===== */
+  .detail-card {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    width: 320px;
+    background: var(--bg-glass-strong);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    z-index: 50;
+    overflow: hidden;
+    transition: opacity 0.3s var(--ease-out), transform 0.3s var(--ease-out);
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+  }
+
+  .detail-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .detail-card-header {
+    padding: 14px 18px 12px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(135deg, rgba(74,158,255,0.06) 0%, transparent 100%);
+  }
+
+  .detail-card-label {
+    font-size: 10px;
+    color: var(--accent-bright);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-family: var(--mono);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .detail-card-label::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent-glow);
+  }
+
+  .detail-card-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.3;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .detail-card-body {
+    padding: 14px 18px 16px;
+  }
+
+  .detail-card-params {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .detail-card-param {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+  }
+
+  .detail-card-param-key {
+    color: var(--text-muted);
+    font-family: var(--mono);
+    white-space: nowrap;
+    min-width: 70px;
+  }
+
+  .detail-card-param-val {
+    color: var(--text-primary);
+    font-weight: 500;
+    text-align: right;
+    margin-left: auto;
+  }
+
+  .detail-card-default {
+    padding: 18px;
+    text-align: center;
+  }
+
+  .detail-card-default-icon {
+    font-size: 24px;
+    margin-bottom: 8px;
+    opacity: 0.4;
+  }
+
+  .detail-card-default-text {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .detail-card-default-hint {
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-top: 6px;
+    opacity: 0.6;
+    font-family: var(--mono);
+  }
+
+  @media (max-width: 960px) {
+    .detail-card { display: none !important; }
+  }
   .step-badge {
     position: absolute;
     top: 12px; right: 12px;
@@ -1640,8 +1762,14 @@
       <button class="cat-tab" data-cat="custom" role="tab">
         <span class="cat-tab-icon">🏭</span> 非标设计
       </button>
-      <button class="cat-tab" data-cat="sim" role="tab">
-        <span class="cat-tab-icon">📊</span> 仿真
+      <button class="cat-tab" data-cat="gen" role="tab">
+        <span class="cat-tab-icon">🧬</span> 衍生式建模
+      </button>
+      <button class="cat-tab" data-cat="fea" role="tab">
+        <span class="cat-tab-icon">📏</span> 应力仿真
+      </button>
+      <button class="cat-tab" data-cat="cfd" role="tab">
+        <span class="cat-tab-icon">🌊</span> 流体仿真
       </button>
       <button class="cat-tab" data-cat="cam" role="tab">
         <span class="cat-tab-icon">⚙️</span> CAM
@@ -1650,7 +1778,9 @@
 
     <div class="project-grid fade-in-stagger" id="projectGrid">
       <!-- 小车底盘 -->
-      <article class="project-card fade-in" data-cat="chassis" data-index="0" tabindex="0">
+      <article class="project-card fade-in" data-cat="chassis" data-index="0" tabindex="0"
+        data-detail-title="RoboMaster 步兵舵轮底盘"
+        data-detail-params="车型: 步兵 | 驱动: 四轮独立舵轮 | 原始质量: 52kg | 优化后: 43.8kg | 减重: 15.8% | 工况: 6种 | 安全系数: ≥3.0 | 装甲: 装甲板角度优化">
         <div class="project-card-img">
           <img src="4d3f1218f688e46002d045507cb54e64.png" alt="RoboMaster步兵舵轮底盘" loading="lazy">
           <div class="project-card-overlay">
@@ -1693,7 +1823,9 @@
       </article>
 
       <!-- 无人机 -->
-      <article class="project-card fade-in" data-cat="drone" data-index="1" tabindex="0">
+      <article class="project-card fade-in" data-cat="drone" data-index="1" tabindex="0"
+        data-detail-title="RoboMaster 空中机器人"
+        data-detail-params="机型: 四旋翼 | 保护: 全包围桨叶保护圈 | 机架: 碳纤维一体成型 | 云台: 两轴 | 工况: 6种 | 传动: 3D打印连接件快拆">
         <div class="project-card-img">
           <img src="6b419cc62a976dae145874c255541600.jpg" alt="空中机器人带保护圈四旋翼" loading="lazy">
           <div class="project-card-overlay">
@@ -1736,7 +1868,9 @@
       </article>
 
       <!-- 灵巧手 1 -->
-      <article class="project-card fade-in" data-cat="hand" data-index="2" tabindex="0">
+      <article class="project-card fade-in" data-cat="hand" data-index="2" tabindex="0"
+        data-detail-title="第二代拟人灵巧手 · 掌侧"
+        data-detail-params="自由度: 21 DOF | 指数: 5指 | 传动: 腱绳 | 整手重量: ≤450g | 单指捏力: 15N | 动作模式: 15+种 | 优化: AI拓扑优化">
         <div class="project-card-img">
           <img src="426439c7aa2fe893861302446044f6f9.png" alt="第二代拟人灵巧手掌侧" loading="lazy">
           <div class="project-card-overlay">
@@ -1778,7 +1912,9 @@
       </article>
 
       <!-- 灵巧手 2 -->
-      <article class="project-card fade-in" data-cat="hand" data-index="3" tabindex="0">
+      <article class="project-card fade-in" data-cat="hand" data-index="3" tabindex="0"
+        data-detail-title="第一代灵巧手 · 背侧驱动舱"
+        data-detail-params="驱动: 5组扇形绳轮 | 传动: 腱绳 | 建模: Matlab | 控制框架: ROS2 | 动作: 精密抓取/捏取 | 配套: 柔性两爪夹爪">
         <div class="project-card-img">
           <img src="4d074af61ff70ceef0ac2b34a04ddc20.png" alt="第一代灵巧手背侧驱动舱" loading="lazy">
           <div class="project-card-overlay">
@@ -1820,7 +1956,9 @@
       </article>
 
       <!-- 非标设计 1 -->
-      <article class="project-card fade-in" data-cat="custom" data-index="4" tabindex="0">
+      <article class="project-card fade-in" data-cat="custom" data-index="4" tabindex="0"
+        data-detail-title="自动化检测产线集成"
+        data-detail-params="模块: 气压测量+高温老化+变形检测 | 精度: ±0.2%FS (提升自±0.5%) | 优化: AI生成式设计+Fluent | 合格率: 95% (提升自75%) | 仿真轮次: 3轮">
         <div class="project-card-img">
           <img src="f3c0dbf15187bf2b85318294247cf226.png" alt="非标自动化产线" loading="lazy">
           <div class="project-card-overlay">
@@ -1909,7 +2047,9 @@
       </article>
 
       <!-- 非标设计 3 — 激光雕刻机 -->
-      <article class="project-card fade-in" data-cat="custom" data-index="6" tabindex="0">
+      <article class="project-card fade-in" data-cat="custom" data-index="6" tabindex="0"
+        data-detail-title="半导体三轴激光雕刻机"
+        data-detail-params="轴数: 三轴XYZ | 最大速度: 800mm/s | 定位精度: ±3μm | 重复精度: ±1μm | 加工良率: 99.2% | 安全标准: Class 1 | 基座: 大理石龙门">
         <div class="project-card-img">
           <img src="laser_engraver.png" alt="半导体三轴激光雕刻机" loading="lazy">
           <div class="project-card-overlay">
@@ -1952,8 +2092,55 @@
         </div>
       </article>
 
-      <!-- 仿真 1 -->
-      <article class="project-card fade-in" data-cat="sim" data-index="7" tabindex="0">
+      <!-- 衍生式建模 -->
+      <article class="project-card fade-in" data-cat="gen" data-index="13" tabindex="0"
+        data-detail-title="衍生式建模 · 拓扑优化支架"
+        data-detail-params="优化算法: 拓扑优化 | 减重率: 23% | 材料: 铝合金6061-T6 | 制造工艺: 增材制造+精加工 | 工况数: 6种 | 安全系数: ≥3.0">
+        <div class="project-card-img">
+          <img src="gen_design_1.png" alt="衍生式建模拓扑优化支架" loading="lazy">
+          <div class="project-card-overlay">
+            <span class="project-card-zoom">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                <line x1="11" y1="8" x2="11" y2="14"/>
+                <line x1="8" y1="11" x2="14" y2="11"/>
+              </svg>
+              点击查看大图
+            </span>
+          </div>
+        </div>
+        <div class="project-card-body">
+          <span class="project-card-tag">衍生式建模</span>
+          <h3 class="project-card-title">衍生式建模 · 拓扑优化支架</h3>
+          <p class="project-card-desc">
+            基于ANSYS与Fusion 360生成式设计工具，对承力支架进行拓扑优化迭代。
+            定义7个安装接触面与6种工况载荷，AI算法自动生成仿生骨翼式传力路径结构。
+            优化后质量由原始120g降至92g，减重23%，同时一阶固有频率提升至850Hz以上。
+            适用于增材制造工艺，配合精加工保证安装面精度，实现轻量化与高性能的统一。
+          </p>
+          <div class="project-card-meta">
+            <span class="project-card-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+              </svg>
+              Fusion 360 / ANSYS
+            </span>
+            <span class="project-card-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+              </svg>
+              减重23%
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 应力仿真 1 -->
+      <article class="project-card fade-in" data-cat="fea" data-index="7" tabindex="0"
+        data-detail-title="受力强度分析 · 应力云图"
+        data-detail-params="软件: ANSYS Workbench | 单元类型: Solid187 | 网格数: 1.2M | 求解器: 隐式静力学 | 材料模型: 双线性等向强化 | 安全系数: ≥3.0">
         <div class="project-card-img">
           <img src="3d4ba16dedceda38ef778fabb55aa3a9.png" alt="结构静力学仿真" loading="lazy">
           <div class="project-card-overlay">
@@ -1994,8 +2181,10 @@
         </div>
       </article>
 
-      <!-- 仿真 2 -->
-      <article class="project-card fade-in" data-cat="sim" data-index="8" tabindex="0">
+      <!-- 流体仿真 1 -->
+      <article class="project-card fade-in" data-cat="cfd" data-index="8" tabindex="0"
+        data-detail-title="流体力学分析 · 温度场"
+        data-detail-params="软件: ANSYS Fluent | 湍流模型: k-ε realizable | 网格数: 850K | 求解器: 压力基耦合 | 能量方程: 开启 | 温域: -40℃~120℃">
         <div class="project-card-img">
           <img src="720d9519ff840bcb376bcf15e49cd450.png" alt="流体温度场仿真" loading="lazy">
           <div class="project-card-overlay">
@@ -2036,8 +2225,10 @@
         </div>
       </article>
 
-      <!-- 仿真 3 -->
-      <article class="project-card fade-in" data-cat="sim" data-index="9" tabindex="0">
+      <!-- 流体仿真 2 -->
+      <article class="project-card fade-in" data-cat="cfd" data-index="9" tabindex="0"
+        data-detail-title="流体力学分析 · 速度矢量场"
+        data-detail-params="软件: ANSYS Fluent | 湍流模型: k-ω SST | 网格数: 1.1M | 精度: 二阶迎风 | 收敛标准: 1e-4 | 优化轮次: 3轮">
         <div class="project-card-img">
           <img src="884b7ace23bd759997376e069a6c1e6e.png" alt="流体速度矢量仿真" loading="lazy">
           <div class="project-card-overlay">
@@ -2078,8 +2269,10 @@
         </div>
       </article>
 
-      <!-- 仿真 4 -->
-      <article class="project-card fade-in" data-cat="sim" data-index="10" tabindex="0">
+      <!-- 应力仿真 2 -->
+      <article class="project-card fade-in" data-cat="fea" data-index="10" tabindex="0"
+        data-detail-title="受力强度分析 · 约束加载"
+        data-detail-params="软件: ANSYS Workbench | 前处理: 几何清理+网格划分 | 单元类型: Solid187 | 边界: 全自由度约束 | 载荷类型: 静态力+力矩">
         <div class="project-card-img">
           <img src="151bdb14fffbeaa0b199a4fa144f2c1d.png" alt="结构加载仿真模型" loading="lazy">
           <div class="project-card-overlay">
@@ -2122,7 +2315,9 @@
       </article>
 
       <!-- CAM 1 -->
-      <article class="project-card fade-in" data-cat="cam" data-index="11" tabindex="0">
+      <article class="project-card fade-in" data-cat="cam" data-index="11" tabindex="0"
+        data-detail-title="车削加工刀路 · 剖面视图"
+        data-detail-params="加工类型: 数控车削 | 策略: 粗车/精车/退刀槽/端面 | 软件: Fusion 360 CAM | 合格率: 95% | 工艺: CNC出图+装配迭代">
         <div class="project-card-img">
           <img src="5beca630f57da0b488ab71566728a5e0.png" alt="车削加工刀具路径" loading="lazy">
           <div class="project-card-overlay">
@@ -2165,7 +2360,9 @@
       </article>
 
       <!-- CAM 2 -->
-      <article class="project-card fade-in" data-cat="cam" data-index="12" tabindex="0">
+      <article class="project-card fade-in" data-cat="cam" data-index="12" tabindex="0"
+        data-detail-title="车削加工刀路 · 立体视图"
+        data-detail-params="装夹: 三爪卡盘 | 工序: 外圆/端面/切槽 | 软件: Fusion 360 CAM | 仿真验证: 刀具干涉预判 | 能力: 全流程工艺设计+现场调试">
         <div class="project-card-img">
           <img src="5c3c2a051f27e22e3ca219a4639bff51.png" alt="车削加工立体刀路" loading="lazy">
           <div class="project-card-overlay">
@@ -2579,6 +2776,22 @@
     </ul>
   </div>
 </footer>
+
+<!-- ===== Hover Detail Card (Desktop Only) ===== -->
+<aside class="detail-card" id="detailCard" aria-live="polite">
+  <div class="detail-card-header">
+    <div class="detail-card-label" id="detailLabel">悬停查看详情</div>
+    <div class="detail-card-title" id="detailTitle">将鼠标移至任意项目卡片</div>
+  </div>
+  <div class="detail-card-body">
+    <div class="detail-card-default" id="detailDefault">
+      <div class="detail-card-default-icon">⚡</div>
+      <div class="detail-card-default-text">悬停于项目卡片、技能标签或经历节点</div>
+      <div class="detail-card-default-hint">查看技术参数与延伸信息</div>
+    </div>
+    <div class="detail-card-params" id="detailParams" style="display:none;"></div>
+  </div>
+</aside>
 
 <!-- ===== Lightbox ===== -->
 <div class="lightbox" id="lightbox" role="dialog" aria-label="大图查看" aria-modal="true">
@@ -3064,6 +3277,111 @@
     });
   }, { threshold: 0.5 });
   counters.forEach(c => counterObs.observe(c));
+
+  // ===== Hover Detail Card (Desktop Only) =====
+  const detailCard = document.getElementById('detailCard');
+  const detailLabel = document.getElementById('detailLabel');
+  const detailTitle = document.getElementById('detailTitle');
+  const detailDefault = document.getElementById('detailDefault');
+  const detailParams = document.getElementById('detailParams');
+  let detailTimer = null;
+  let isDesktop = window.innerWidth > 960;
+
+  function updateIsDesktop() { isDesktop = window.innerWidth > 960; }
+  window.addEventListener('resize', updateIsDesktop);
+
+  function showDetail(title, params, label) {
+    if (!isDesktop) return;
+    clearTimeout(detailTimer);
+    detailLabel.textContent = label || '项目详情';
+    detailTitle.style.opacity = '0';
+    detailTitle.style.transform = 'translateY(-6px)';
+    detailParams.style.opacity = '0';
+    detailParams.style.transform = 'translateY(-6px)';
+
+    setTimeout(() => {
+      detailTitle.textContent = title;
+      if (params) {
+        detailDefault.style.display = 'none';
+        detailParams.style.display = 'flex';
+        detailParams.innerHTML = '';
+        params.split('|').forEach(p => {
+          const [k, v] = p.split(':').map(s => s.trim());
+          if (!k || !v) return;
+          const row = document.createElement('div');
+          row.className = 'detail-card-param';
+          row.innerHTML = '<span class="detail-card-param-key">' + k + '</span><span class="detail-card-param-val">' + v + '</span>';
+          detailParams.appendChild(row);
+        });
+      } else {
+        detailDefault.style.display = 'block';
+        detailParams.style.display = 'none';
+      }
+      detailTitle.style.opacity = '1';
+      detailTitle.style.transform = 'translateY(0)';
+      detailParams.style.opacity = '1';
+      detailParams.style.transform = 'translateY(0)';
+    }, 150);
+
+    detailCard.classList.add('visible');
+  }
+
+  function hideDetail() {
+    detailTimer = setTimeout(() => {
+      detailCard.classList.remove('visible');
+      setTimeout(() => {
+        detailLabel.textContent = '悬停查看详情';
+        detailTitle.textContent = '将鼠标移至任意项目卡片';
+        detailDefault.style.display = 'block';
+        detailParams.style.display = 'none';
+      }, 300);
+    }, 800);
+  }
+
+  // Bind to project cards
+  document.querySelectorAll('.project-card[data-detail-title]').forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      showDetail(card.dataset.detailTitle, card.dataset.detailParams, '项目技术参数');
+    });
+    card.addEventListener('mouseleave', hideDetail);
+  });
+
+  // Bind to skill items
+  const skillDetails = {
+    '三维建模与工程出图': '熟练度: 精通(4年) | 软件: Fusion 360/SolidWorks/AutoCAD | 能力: 钣金/CNC出图/3D打印 | 出图标准: GB/T 17452',
+    '结构仿真与优化': '熟练度: 熟练(3年) | 软件: ANSYS/Adams/Fluent | 能力: 拓扑优化/参数化优化/生成式设计 | 工况: 静载/冲击/跌落/振动',
+    'AI工程应用': '熟练度: 熟练(2年) | 能力: AI拓扑优化/AI仿真调优/多工况迭代/机器学习补偿/大模型排障 | 效率提升: 3倍',
+    '机器人与机电': '熟练度: 熟练(2年) | 框架: ROS2 | 能力: 运动学/动力学建模 | 工具: Matlab | 硬件: PLC/传感器选型'
+  };
+
+  document.querySelectorAll('.skill-item').forEach(item => {
+    const title = item.querySelector('.skill-item-title');
+    if (!title) return;
+    const key = title.textContent.trim();
+    item.addEventListener('mouseenter', () => {
+      if (skillDetails[key]) {
+        showDetail(key + ' · 技能详情', skillDetails[key], '技能熟练度');
+      }
+    });
+    item.addEventListener('mouseleave', hideDetail);
+  });
+
+  // Bind to timeline items
+  document.querySelectorAll('.timeline-item').forEach(item => {
+    const titleEl = item.querySelector('.timeline-title');
+    const companyEl = item.querySelector('.timeline-company');
+    const dateEl = item.querySelector('.timeline-date');
+    if (!titleEl) return;
+    const title = titleEl.textContent.trim();
+    const company = companyEl ? companyEl.textContent.trim() : '';
+    const date = dateEl ? dateEl.textContent.trim() : '';
+    const descItems = item.querySelectorAll('.timeline-desc li');
+    const params = Array.from(descItems).slice(0, 4).map(li => '职责: ' + li.textContent.trim().substring(0, 40)).join(' | ');
+    item.addEventListener('mouseenter', () => {
+      showDetail(title, (company + ' | 时间: ' + date + ' | ' + params).substring(0, 200), '经历详情');
+    });
+    item.addEventListener('mouseleave', hideDetail);
+  });
 </script>
 </body>
 </html>
