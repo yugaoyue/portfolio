@@ -1199,6 +1199,16 @@
     border: 1px solid var(--border);
   }
 
+  .lightbox-img-wrapper iframe {
+    width: 78vw;
+    max-width: 880px;
+    height: 75vh;
+    border: 0;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+  }
+
   .lightbox-caption {
     text-align: center;
     color: var(--text-secondary);
@@ -1500,13 +1510,12 @@
   .step-viewer-container:active { cursor: grabbing; }
   .step-viewer-container canvas { display: block; width: 100% !important; height: 100% !important; }
 
-  /* ===== Left Sidebar Certificate Showcase (Desktop Only) ===== */
-  .cert-sidebar {
+  /* ===== Hover-triggered Certificate Preview (Desktop only) ===== */
+  .cert-preview {
     position: fixed;
-    top: 84px;
+    top: 50%;
     left: 24px;
-    width: 280px;
-    max-height: calc(100vh - 108px);
+    width: 236px;
     background: var(--bg-glass-strong);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
@@ -1515,12 +1524,21 @@
     box-shadow: var(--shadow-lg);
     z-index: 40;
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    transition: opacity 0.4s var(--ease-out);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-50%) translateX(-20px) scale(0.96);
+    transition: opacity 0.26s var(--ease-out), transform 0.26s var(--ease-out), visibility 0.26s;
   }
 
-  .cert-sidebar::before {
+  .cert-preview.visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(-50%) translateX(0) scale(1);
+  }
+
+  .cert-preview::before {
     content: '';
     position: absolute;
     top: 0;
@@ -1530,26 +1548,21 @@
     background: linear-gradient(90deg, transparent, var(--accent-glow), transparent);
   }
 
-  .cert-sidebar-header {
-    padding: 14px 18px 10px;
-    border-bottom: 1px solid var(--border);
-    background: linear-gradient(135deg, rgba(74,158,255,0.06) 0%, transparent 100%);
-    flex-shrink: 0;
-  }
-
-  .cert-sidebar-label {
-    font-size: 10px;
-    color: var(--accent-bright);
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    font-family: var(--mono);
-    margin-bottom: 4px;
+  .cert-preview-head {
     display: flex;
     align-items: center;
     gap: 6px;
+    padding: 11px 14px 9px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(135deg, rgba(74,158,255,0.06) 0%, transparent 100%);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-bright);
   }
 
-  .cert-sidebar-label::before {
+  .cert-preview-head::before {
     content: '';
     width: 5px;
     height: 5px;
@@ -1564,113 +1577,96 @@
     50% { opacity: 0.4; }
   }
 
-  .cert-sidebar-title {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--text-primary);
-    line-height: 1.3;
-  }
-
-  .cert-sidebar-body {
-    flex: 1;
-    overflow-y: auto;
-    padding: 14px;
-    scrollbar-width: thin;
-    scrollbar-color: var(--accent-glow) transparent;
-  }
-
-  .cert-sidebar-body::-webkit-scrollbar { width: 4px; }
-  .cert-sidebar-body::-webkit-scrollbar-track { background: transparent; }
-  .cert-sidebar-body::-webkit-scrollbar-thumb { background: var(--accent-glow); border-radius: 2px; }
-
-  .cert-panel {
-    display: none;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .cert-panel.active {
-    display: flex;
-    animation: certFadeIn 0.5s var(--ease-out) forwards;
-  }
-
-  @keyframes certFadeIn {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .cert-item {
-    cursor: pointer;
-    border-radius: 6px;
-    overflow: hidden;
-    border: 1px solid var(--border);
-    background: var(--bg-card);
-    transition: transform 0.25s var(--ease-out), border-color 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out);
-  }
-
-  .cert-item:hover {
-    transform: scale(1.04);
-    border-color: var(--accent);
-    box-shadow: 0 0 0 1px var(--accent-glow), 0 4px 12px rgba(74,158,255,0.15);
-  }
-
-  .cert-item-img {
-    width: 100%;
-    aspect-ratio: 3/4;
-    overflow: hidden;
-    background: var(--bg-deep);
+  .cert-preview-media {
     position: relative;
+    background: var(--bg-deep);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 110px;
+    overflow: hidden;
   }
 
-  .cert-item-img img {
+  .cert-preview-media img {
+    display: block;
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s var(--ease-out);
+    height: auto;
+    max-height: 260px;
+    object-fit: contain;
   }
 
-  .cert-item:hover .cert-item-img img {
-    transform: scale(1.08);
+  .cert-preview-media.pdf-mode {
+    flex-direction: column;
+    gap: 8px;
+    padding: 26px 14px;
+    color: var(--text-muted);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
   }
 
-  .cert-item-info {
-    padding: 8px 10px;
+  .cert-preview-media.pdf-mode svg { width: 34px; height: 34px; opacity: 0.5; }
+
+  .cert-preview-foot {
+    padding: 10px 14px 12px;
   }
 
-  .cert-item-name {
-    font-size: 11px;
+  .cert-preview-name {
+    font-size: 12px;
     font-weight: 600;
     color: var(--text-primary);
-    line-height: 1.3;
-    margin-bottom: 2px;
+    line-height: 1.35;
   }
 
-  .cert-item-meta {
-    font-size: 9px;
+  .cert-preview-meta {
+    margin-top: 3px;
+    font-size: 10px;
     color: var(--text-muted);
     font-family: var(--mono);
     line-height: 1.4;
   }
 
-  .cert-sidebar-empty {
-    padding: 24px 18px;
-    text-align: center;
+  .cert-preview-hint {
+    margin-top: 8px;
+    font-size: 10px;
+    font-family: var(--mono);
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    opacity: 0.85;
   }
 
-  .cert-sidebar-empty-icon {
-    font-size: 22px;
-    margin-bottom: 6px;
-    opacity: 0.3;
+  /* Awards with certificate available */
+  .award-item.has-cert { cursor: pointer; }
+
+  .award-item.has-cert:hover {
+    border-color: var(--accent);
+    background: linear-gradient(135deg, rgba(74,158,255,0.07) 0%, var(--bg-card) 60%);
   }
 
-  .cert-sidebar-empty-text {
-    font-size: 11px;
-    color: var(--text-muted);
-    line-height: 1.5;
+  .award-cert-badge {
+    margin-left: auto;
+    align-self: center;
+    flex-shrink: 0;
+    padding: 3px 9px;
+    border: 1px solid var(--accent-line);
+    border-radius: 999px;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--accent-bright);
+    white-space: nowrap;
+    opacity: 0.65;
+    transition: opacity 0.25s var(--ease-out), background 0.25s var(--ease-out);
+  }
+
+  .award-item.has-cert:hover .award-cert-badge {
+    opacity: 1;
+    background: var(--accent-soft);
   }
 
   @media (max-width: 960px) {
-    .cert-sidebar { display: none !important; }
+    .cert-preview { display: none !important; }
+    .award-cert-badge { display: none; }
   }
   .step-badge {
     position: absolute;
@@ -2762,26 +2758,29 @@
         <div class="resume-section fade-in" id="awards">
           <h3>荣誉奖项</h3>
           <div class="awards-list">
-            <div class="award-item">
+            <div class="award-item has-cert" data-cert="robomaster_team.jpg" tabindex="0" role="button" aria-label="查看获奖证书">
               <div class="award-icon">🏆</div>
               <div>
                 <div class="award-text">RoboMaster 2025年"高校联盟赛"3V3对抗赛 广西站冠军</div>
                 <div class="award-level">省级 · 冠军</div>
               </div>
+              <span class="award-cert-badge">证书</span>
             </div>
-            <div class="award-item">
+            <div class="award-item has-cert" data-cert="cert_gaojiaocup_18th.jpg" tabindex="0" role="button" aria-label="查看获奖证书">
               <div class="award-icon">🥉</div>
               <div>
                 <div class="award-text">第十八届"高教杯"全国大学生先进成图技术大赛 增材制造 全国三等奖</div>
                 <div class="award-level">国家级 · 个人</div>
               </div>
+              <span class="award-cert-badge">证书</span>
             </div>
-            <div class="award-item">
+            <div class="award-item has-cert" data-cert="cert_gaojiaocup_17th.jpg" tabindex="0" role="button" aria-label="查看获奖证书">
               <div class="award-icon">🥉</div>
               <div>
                 <div class="award-text">第十七届"高教杯"全国大学生先进成图技术大赛 机械类 全国三等奖</div>
                 <div class="award-level">国家级 · 个人</div>
               </div>
+              <span class="award-cert-badge">证书</span>
             </div>
             <div class="award-item">
               <div class="award-icon">🥈</div>
@@ -2789,6 +2788,22 @@
                 <div class="award-text">第十七届"高教杯"全国大学生先进成图技术大赛 团体全国二等奖</div>
                 <div class="award-level">国家级 · 团体</div>
               </div>
+            </div>
+            <div class="award-item has-cert" data-cert="cert_challenge_cup_prov.jpg" tabindex="0" role="button" aria-label="查看获奖证书">
+              <div class="award-icon">🥉</div>
+              <div>
+                <div class="award-text">第十五届"挑战杯"广东大学生创业计划竞赛 铜奖</div>
+                <div class="award-level">省级</div>
+              </div>
+              <span class="award-cert-badge">证书</span>
+            </div>
+            <div class="award-item has-cert" data-cert="cert_challenge_cup.jpg" tabindex="0" role="button" aria-label="查看获奖证书">
+              <div class="award-icon">🏅</div>
+              <div>
+                <div class="award-text">第十五届"挑战杯"创业计划竞赛 校级选拔赛 金奖</div>
+                <div class="award-level">校级</div>
+              </div>
+              <span class="award-cert-badge">证书</span>
             </div>
             <div class="award-item">
               <div class="award-icon">🥈</div>
@@ -2829,73 +2844,14 @@
   </div>
 </footer>
 
-<!-- ===== Left Sidebar Certificate Showcase (Desktop Only) ===== -->
-<aside class="cert-sidebar" id="certSidebar" aria-live="polite">
-  <div class="cert-sidebar-header">
-    <div class="cert-sidebar-label" id="certSidebarLabel">滚动查看证书</div>
-    <div class="cert-sidebar-title" id="certSidebarTitle">滚动至技能或荣誉板块</div>
-  </div>
-  <div class="cert-sidebar-body">
-    <!-- Default empty state -->
-    <div class="cert-panel active" id="certPanelDefault">
-      <div class="cert-sidebar-empty">
-        <div class="cert-sidebar-empty-icon">🏅</div>
-        <div class="cert-sidebar-empty-text">滚动至「专业技能」或「荣誉奖项」板块<br>查看证书与奖状</div>
-      </div>
-    </div>
-
-    <!-- Skills certificates panel -->
-    <div class="cert-panel" id="certPanelSkills">
-      <div class="cert-item" data-cert-group="skills" data-cert-index="0" tabindex="0" role="button" aria-label="查看证书大图">
-        <div class="cert-item-img">
-          <img src="cert_gaojiaocup_18th.jpg" alt="高教杯第18届证书" loading="lazy">
-        </div>
-        <div class="cert-item-info">
-          <div class="cert-item-name">高教杯全国大学生先进成图大赛</div>
-          <div class="cert-item-meta">全国三等奖 · 2025</div>
-        </div>
-      </div>
-      <div class="cert-item" data-cert-group="skills" data-cert-index="1" tabindex="0" role="button" aria-label="查看证书大图">
-        <div class="cert-item-img">
-          <img src="cert_gaojiaocup_17th.jpg" alt="高教杯第17届证书" loading="lazy">
-        </div>
-        <div class="cert-item-info">
-          <div class="cert-item-name">高教杯全国大学生先进成图大赛</div>
-          <div class="cert-item-meta">全国三等奖 · 2024</div>
-        </div>
-      </div>
-      <div class="cert-item" data-cert-group="skills" data-cert-index="2" tabindex="0" role="button" aria-label="查看证书大图">
-        <div class="cert-item-img">
-          <img src="cert_experimental.pdf" alt="实验创新证书" loading="lazy" onerror="this.parentElement.innerHTML='<div style=display:flex;align-items:center;justify-content:center;height:100%;font-size:24px>📄</div>'">
-        </div>
-        <div class="cert-item-info">
-          <div class="cert-item-name">实验创新等级认证</div>
-          <div class="cert-item-meta">校级 · 2024</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Awards certificates panel -->
-    <div class="cert-panel" id="certPanelAwards">
-      <div class="cert-item" data-cert-group="awards" data-cert-index="0" tabindex="0" role="button" aria-label="查看奖状大图">
-        <div class="cert-item-img">
-          <img src="cert_challenge_cup.jpg" alt="挑战杯奖状" loading="lazy">
-        </div>
-        <div class="cert-item-info">
-          <div class="cert-item-name">挑战杯大学生课外学术科技作品</div>
-          <div class="cert-item-meta">校级 · 2025</div>
-        </div>
-      </div>
-      <div class="cert-item" data-cert-group="awards" data-cert-index="1" tabindex="0" role="button" aria-label="查看奖状大图">
-        <div class="cert-item-img">
-          <img src="robomaster_team.jpg" alt="RoboMaster团队奖" loading="lazy">
-        </div>
-        <div class="cert-item-info">
-          <div class="cert-item-name">RoboMaster机甲大师赛</div>
-          <div class="cert-item-meta">团队奖项 · 2024</div>
-        </div>
-      </div>
-    </div>
+<!-- ===== Hover Certificate Preview (Desktop Only) ===== -->
+<aside class="cert-preview" id="certPreview" aria-hidden="true">
+  <div class="cert-preview-head">证书预览</div>
+  <div class="cert-preview-media" id="certPreviewMedia"></div>
+  <div class="cert-preview-foot">
+    <div class="cert-preview-name" id="certPreviewName"></div>
+    <div class="cert-preview-meta" id="certPreviewMeta"></div>
+    <div class="cert-preview-hint">点击查看大图</div>
   </div>
 </aside>
 
@@ -3233,6 +3189,11 @@
       img.src = media.src;
       img.alt = media.alt || '';
       wrapper.appendChild(img);
+    } else if (media.type === 'pdf') {
+      const frame = document.createElement('iframe');
+      frame.src = media.src;
+      frame.setAttribute('title', media.alt || '证书');
+      wrapper.appendChild(frame);
     } else if (media.type === 'svg') {
       wrapper.innerHTML = media.svgHTML;
       const svg = wrapper.querySelector('svg');
@@ -3271,9 +3232,12 @@
       viewerStates.delete(lbStep);
     }
     lightbox.classList.remove('active');
-    lightbox.classList.remove('open');
     document.body.style.overflow = '';
-    certLbActive = false;
+    if (certLightboxOpen) {
+      certLightboxOpen = false;
+      lightboxPrev.style.display = '';
+      lightboxNext.style.display = '';
+    }
   }
 
   function showPrev() {
@@ -3333,12 +3297,10 @@
   lightboxClose.addEventListener('click', closeLightbox);
   lightboxPrev.addEventListener('click', (e) => {
     e.stopPropagation();
-    if (certLbActive) { certLbPrev(); return; }
     showPrev();
   });
   lightboxNext.addEventListener('click', (e) => {
     e.stopPropagation();
-    if (certLbActive) { certLbNext(); return; }
     showNext();
   });
 
@@ -3347,14 +3309,9 @@
   });
 
   document.addEventListener('keydown', (e) => {
-    if (!lightbox.classList.contains('active') && !lightbox.classList.contains('open')) return;
-    if (e.key === 'Escape') closeLightbox();
-    if (certLbActive) {
-      if (e.key === 'ArrowLeft') certLbPrev();
-      if (e.key === 'ArrowRight') certLbNext();
-      return;
-    }
     if (!lightbox.classList.contains('active')) return;
+    if (e.key === 'Escape') { closeLightbox(); return; }
+    if (certLightboxOpen) return;
     if (e.key === 'ArrowLeft') showPrev();
     if (e.key === 'ArrowRight') showNext();
   });
@@ -3400,122 +3357,106 @@
   }, { threshold: 0.5 });
   counters.forEach(c => counterObs.observe(c));
 
-  // ===== Certificate Sidebar Scroll Sync =====
-  const certSidebar = document.getElementById('certSidebar');
-  const certSidebarLabel = document.getElementById('certSidebarLabel');
-  const certSidebarTitle = document.getElementById('certSidebarTitle');
-  const certPanels = {
-    default: document.getElementById('certPanelDefault'),
-    skills: document.getElementById('certPanelSkills'),
-    awards: document.getElementById('certPanelAwards')
-  };
+  // ===== Hover-triggered Certificate Preview =====
+  const certPreview = document.getElementById('certPreview');
+  const certPreviewMedia = document.getElementById('certPreviewMedia');
+  const certPreviewName = document.getElementById('certPreviewName');
+  const certPreviewMeta = document.getElementById('certPreviewMeta');
+  const certAwardItems = Array.from(document.querySelectorAll('.award-item.has-cert'));
+  const certPdfIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/></svg>';
 
-  function showCertPanel(name, label, title) {
-    Object.values(certPanels).forEach(p => p.classList.remove('active'));
-    if (certPanels[name]) {
-      certPanels[name].classList.add('active');
-      certSidebarLabel.textContent = label;
-      certSidebarTitle.textContent = title;
-    }
+  function isDesktopHover() {
+    return window.matchMedia('(min-width: 961px)').matches;
   }
 
-  // Detect when skills section is in view
-  const skillsSection = document.getElementById('skills');
-  const awardsSection = document.getElementById('awards');
-
-  function detectActiveSection() {
-    if (window.innerWidth <= 960) return;
-    const scrollY = window.scrollY;
-    const winH = window.innerHeight;
-    const skillsTop = skillsSection ? skillsSection.offsetTop : 0;
-    const skillsBottom = skillsTop + (skillsSection ? skillsSection.offsetHeight : 0);
-    const awardsTop = awardsSection ? awardsSection.offsetTop : 0;
-    const awardsBottom = awardsTop + (awardsSection ? awardsSection.offsetHeight : 0);
-
-    if (scrollY + winH * 0.4 >= awardsTop && scrollY < awardsBottom + 200) {
-      showCertPanel('awards', '荣誉奖项', '荣誉证书与奖状');
-    } else if (scrollY + winH * 0.4 >= skillsTop && scrollY < skillsBottom + 200) {
-      showCertPanel('skills', '专业技能', '技能认证证书');
+  function renderCertPreview(item) {
+    const src = item.dataset.cert || '';
+    const name = item.querySelector('.award-text').textContent;
+    if (/\.pdf$/i.test(src)) {
+      certPreviewMedia.classList.add('pdf-mode');
+      certPreviewMedia.innerHTML = certPdfIcon + '<span>PDF 证书</span>';
     } else {
-      showCertPanel('default', '滚动查看证书', '滚动至技能或荣誉板块');
+      certPreviewMedia.classList.remove('pdf-mode');
+      certPreviewMedia.innerHTML = '';
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = name;
+      certPreviewMedia.appendChild(img);
     }
+    certPreviewName.textContent = name;
+    certPreviewMeta.textContent = item.querySelector('.award-level').textContent;
   }
 
-  let certScrollTimer = null;
-  window.addEventListener('scroll', () => {
-    clearTimeout(certScrollTimer);
-    certScrollTimer = setTimeout(detectActiveSection, 50);
-  });
-  detectActiveSection();
+  let certPreviewItem = null;
+  let certPreviewHideTimer = null;
 
-  // ===== Certificate Lightbox =====
-  const certImages = {
-    skills: [
-      { src: 'cert_gaojiaocup_18th.jpg', name: '高教杯全国大学生先进成图大赛 · 全国三等奖', meta: '2025' },
-      { src: 'cert_gaojiaocup_17th.jpg', name: '高教杯全国大学生先进成图大赛 · 全国三等奖', meta: '2024' },
-      { src: 'cert_experimental.pdf', name: '实验创新等级认证', meta: '校级 · 2024' }
-    ],
-    awards: [
-      { src: 'cert_challenge_cup.jpg', name: '挑战杯大学生课外学术科技作品', meta: '校级 · 2025' },
-      { src: 'robomaster_team.jpg', name: 'RoboMaster机甲大师赛', meta: '团队奖项 · 2024' }
-    ]
-  };
-
-  let certLbGroup = 'skills';
-  let certLbIndex = 0;
-  let certLbActive = false;
-
-  function openCertLightbox(group, index) {
-    certLbGroup = group;
-    certLbIndex = index;
-    certLbActive = true;
-    updateCertLightbox();
-    document.getElementById('lightbox').classList.add('open');
-    document.body.style.overflow = 'hidden';
+  function showCertPreview(item) {
+    if (!isDesktopHover()) return;
+    clearTimeout(certPreviewHideTimer);
+    certPreviewItem = item;
+    renderCertPreview(item);
+    certPreview.classList.add('visible');
+    certPreview.setAttribute('aria-hidden', 'false');
   }
 
-  function updateCertLightbox() {
-    const imgs = certImages[certLbGroup] || [];
-    const img = imgs[certLbIndex];
-    if (!img) return;
-    const lbImg = document.getElementById('lightboxImg');
-    const lbCaption = document.getElementById('lightboxCaption');
-    const lbCounter = document.getElementById('lightboxCounter');
-    if (lbImg) {
-      lbImg.src = img.src;
-      lbImg.alt = img.name;
-    }
-    if (lbCaption) lbCaption.textContent = img.name + ' · ' + img.meta;
-    if (lbCounter) lbCounter.textContent = (certLbIndex + 1) + ' / ' + imgs.length;
+  function hideCertPreview() {
+    clearTimeout(certPreviewHideTimer);
+    certPreview.classList.remove('visible');
+    certPreview.setAttribute('aria-hidden', 'true');
   }
 
-  function certLbNext() {
-    const imgs = certImages[certLbGroup] || [];
-    certLbIndex = (certLbIndex + 1) % imgs.length;
-    updateCertLightbox();
+  function scheduleHideCertPreview() {
+    clearTimeout(certPreviewHideTimer);
+    certPreviewHideTimer = setTimeout(hideCertPreview, 180);
   }
 
-  function certLbPrev() {
-    const imgs = certImages[certLbGroup] || [];
-    certLbIndex = (certLbIndex - 1 + imgs.length) % imgs.length;
-    updateCertLightbox();
-  }
-
-  document.querySelectorAll('.cert-item').forEach(item => {
-    item.addEventListener('click', () => {
-      const group = item.dataset.certGroup;
-      const index = parseInt(item.dataset.certIndex);
-      openCertLightbox(group, index);
-    });
+  certAwardItems.forEach(item => {
+    item.addEventListener('mouseenter', () => showCertPreview(item));
+    item.addEventListener('mouseleave', scheduleHideCertPreview);
+    item.addEventListener('focus', () => showCertPreview(item));
+    item.addEventListener('blur', scheduleHideCertPreview);
+    item.addEventListener('click', () => openCertLightbox(item.dataset.cert));
     item.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        const group = item.dataset.certGroup;
-        const index = parseInt(item.dataset.certIndex);
-        openCertLightbox(group, index);
+        openCertLightbox(item.dataset.cert);
       }
     });
   });
+
+  // Keep the card open while the pointer moves onto it, so it stays clickable
+  certPreview.addEventListener('mouseenter', () => clearTimeout(certPreviewHideTimer));
+  certPreview.addEventListener('mouseleave', scheduleHideCertPreview);
+  certPreview.addEventListener('click', () => {
+    if (certPreviewItem) openCertLightbox(certPreviewItem.dataset.cert);
+  });
+
+  // Scrolling or leaving the window never keeps the card on screen
+  window.addEventListener('scroll', hideCertPreview, { passive: true });
+  document.addEventListener('mouseleave', hideCertPreview);
+
+  // ===== Certificate Lightbox =====
+  let certLightboxOpen = false;
+
+  function openCertLightbox(src) {
+    if (!src) return;
+    const item = certAwardItems.find(i => i.dataset.cert === src);
+    const name = item ? item.querySelector('.award-text').textContent : '证书';
+    const meta = item ? item.querySelector('.award-level').textContent : '';
+    setLightboxMedia(
+      /\.pdf$/i.test(src)
+        ? { type: 'pdf', src: src, alt: name }
+        : { type: 'img', src: src, alt: name }
+    );
+    lightboxTitle.textContent = name;
+    lightboxDesc.textContent = meta ? ' · ' + meta : '';
+    lightboxCounter.textContent = '';
+    certLightboxOpen = true;
+    lightboxPrev.style.display = 'none';
+    lightboxNext.style.display = 'none';
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
 </script>
 </body>
 </html>
