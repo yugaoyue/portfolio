@@ -334,6 +334,60 @@
     line-height: 1.75;
   }
 
+  /* 首屏成果数据展示条 */
+  .hero-stats {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    margin-bottom: 32px;
+    padding: 14px 28px;
+    background: var(--bg-glass);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+  }
+
+  .hero-stat-item {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    padding: 0 24px;
+    position: relative;
+    font-family: var(--mono);
+    font-size: 16px;
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  .hero-stat-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 24px;
+    background: var(--accent-line);
+  }
+
+  .hero-stat-number {
+    font-family: var(--mono);
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+  }
+
+  .hero-stat-label {
+    font-family: var(--mono);
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-primary);
+    letter-spacing: 0;
+  }
+
   .hero-meta {
     display: flex;
     flex-wrap: wrap;
@@ -1457,6 +1511,10 @@
     .hero { padding: 100px 24px 60px; }
     .hero h1 { font-size: clamp(34px, 8vw, 48px); }
     .hero-subtitle { font-size: 16px; max-width: 100%; }
+    .hero-stats { padding: 12px 20px; margin-bottom: 28px; }
+    .hero-stat-item { padding: 0 18px; font-size: 14px; }
+    .hero-stat-number { font-size: 14px; font-weight: 500; color: var(--text-primary); }
+    .hero-stat-label { font-size: 14px; }
   }
 
   @media (max-width: 640px) {
@@ -1465,6 +1523,10 @@
     .nav-inner { padding: 0 20px; }
     .project-grid { grid-template-columns: 1fr; gap: 20px; }
     .hero-meta { gap: 18px; }
+    .hero-stats { padding: 10px 16px; margin-bottom: 24px; }
+    .hero-stat-item { padding: 0 14px; font-size: 13px; gap: 4px; }
+    .hero-stat-number { font-size: 13px; font-weight: 500; color: var(--text-primary); }
+    .hero-stat-label { font-size: 13px; }
     .hero-buttons { flex-direction: column; align-items: center; }
     .hero-buttons .btn { width: 100%; max-width: 280px; justify-content: center; }
     .timeline-header { flex-direction: column; }
@@ -1745,6 +1807,24 @@
         你好，我是<br>
         <span class="highlight">王政杰</span>
       </h1>
+      <div class="hero-stats">
+        <div class="hero-stat-item">
+          <span class="hero-stat-number">4</span>
+          <span class="hero-stat-label">项国家级</span>
+        </div>
+        <div class="hero-stat-item">
+          <span class="hero-stat-number">3</span>
+          <span class="hero-stat-label">项省级</span>
+        </div>
+        <div class="hero-stat-item">
+          <span class="hero-stat-number">1</span>
+          <span class="hero-stat-label">项授权专利</span>
+        </div>
+        <div class="hero-stat-item">
+          <span class="hero-stat-number">36</span>
+          <span class="hero-stat-label">页面阅读</span>
+        </div>
+      </div>
       <p class="hero-subtitle">
         机械电子工程专业，专注于机器人结构设计、有限元仿真与AI驱动的工程优化。
         从AGV底盘到灵巧手，从拓扑优化到CAM加工，用结构语言定义机械之美。
@@ -2758,6 +2838,13 @@
         <div class="resume-section fade-in" id="awards">
           <h3>荣誉奖项</h3>
           <div class="awards-list">
+            <div class="award-item">
+              <div class="award-icon">📜</div>
+              <div>
+                <div class="award-text">基于脑电信号的机器人控制方法、装置、计算机可读存储介质及计算机程序产品</div>
+                <div class="award-level">发明专利 · ZL 2026 1 1081722.3 · 2026</div>
+              </div>
+            </div>
             <div class="award-item has-cert" data-cert="robomaster_team.jpg" tabindex="0" role="button" aria-label="查看获奖证书">
               <div class="award-icon">🏆</div>
               <div>
@@ -3457,6 +3544,7 @@
     lightbox.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
+
 </script>
 </body>
 </html>
